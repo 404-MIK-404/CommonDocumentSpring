@@ -51,6 +51,7 @@ public class ExcelTableDataRender implements ExcelRender {
 
     @Override
     public void render(ExcelRenderContext context, Cell cell) {
+        /*
         Row row = cell.getRow();
         Sheet sheet = cell.getSheet();
         RenderContext renderContext = new RenderContext(
@@ -74,6 +75,8 @@ public class ExcelTableDataRender implements ExcelRender {
         } else {
             renderTable(renderContext, table.getData());
         }
+
+         */
     }
 
     @Override
@@ -81,6 +84,7 @@ public class ExcelTableDataRender implements ExcelRender {
         return ExcelSectionRender.DATA;
     }
 
+    /*
     private void renderTreeTable(ExcelTableDefinition table, DynamicGroupDataTable group, Sheet sheet, Row row, Cell cell) {
         int indexRow = row.getRowNum();
         int indexColumn = cell.getColumnIndex();
@@ -289,5 +293,7 @@ public class ExcelTableDataRender implements ExcelRender {
         private int totalColspan = 0;
 
     }
+
+     */
 
 }

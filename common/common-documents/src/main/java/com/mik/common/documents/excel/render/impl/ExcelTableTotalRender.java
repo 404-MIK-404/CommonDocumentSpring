@@ -30,6 +30,7 @@ public class ExcelTableTotalRender implements ExcelRender {
 
     @Override
     public void render(ExcelRenderContext context, Cell cell) {
+        /*
         int totalColspan = context.getTable().getTotalColspan();
         Row row = cell.getRow();
         RenderContext renderContext = new RenderContext(
@@ -44,6 +45,8 @@ public class ExcelTableTotalRender implements ExcelRender {
 
         renderTitle(renderContext, cellStyle);
         renderValues(renderContext, cellStyle);
+
+         */
     }
 
     @Override
@@ -51,6 +54,7 @@ public class ExcelTableTotalRender implements ExcelRender {
         return ExcelSectionRender.TOTAL;
     }
 
+    /*
     private void renderTitle(RenderContext context, CellStyle cellStyle) {
         Cell cell = context.cell();
         int totalColspan = context.table().getTotalColspan();
@@ -88,6 +92,8 @@ public class ExcelTableTotalRender implements ExcelRender {
         return data.stream().map(vl-> DocumentReflectionDataExtractorUtils.<BigDecimal>invokeData(vl, typeValue, column.getPathField()))
                    .collect(totalBindingType.getCollector());
     }
+
+     */
 
 
 }

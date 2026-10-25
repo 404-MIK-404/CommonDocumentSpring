@@ -18,6 +18,7 @@ public class ExcelPropertiesRender implements ExcelRender {
 
     @Override
     public void render(ExcelRenderContext context, Cell cell) {
+        /*
         Map<String, Object> properties = context.getProperties();
         String key = context.getKey();
         String cellValue = mapper.readFromCell(cell);
@@ -25,6 +26,8 @@ public class ExcelPropertiesRender implements ExcelRender {
         String value = String.valueOf(properties.get(key));
         value = cellValue.replace(command,value);
         mapper.writeToCell(cell,value);
+
+         */
     }
 
     @Override

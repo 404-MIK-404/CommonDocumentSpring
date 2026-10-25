@@ -6,6 +6,7 @@ import com.mik.common.documents.excel.model.context.ExcelExportContext;
 import com.mik.common.documents.excel.service.DocumentExcelAnnotationService;
 import com.mik.common.documents.excel.stage.ExcelWorkbookStage;
 import com.mik.common.documents.excel.util.ExcelSheetUtils;
+import com.mik.common.documents.exceptions.exception.DocumentException;
 import com.mik.common.documents.exceptions.runtime.DocumentRuntimeException;
 import com.mik.common.documents.shared.facade.DocumentFacade;
 import com.mik.common.documents.shared.model.DocumentConfiguration;

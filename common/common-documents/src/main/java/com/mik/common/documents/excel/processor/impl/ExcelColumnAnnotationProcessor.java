@@ -21,6 +21,7 @@ public class ExcelColumnAnnotationProcessor implements ExcelAnnotationProcessor<
 
     @Override
     public List<ExcelColumnDefinition> process(ExcelAnnotationContext context) {
+        /*
         ExcelMarkerTableColumn annotation = (ExcelMarkerTableColumn) context.getAnnotation();
 
         ExcelAnnotationBinding strategy = bindingRegistry.get(annotation.type());
@@ -28,6 +29,9 @@ public class ExcelColumnAnnotationProcessor implements ExcelAnnotationProcessor<
         List<ExcelColumnDefinition> columns = strategy.apply(context);
         if (columns == null || columns.isEmpty()) return new ArrayList<>();
         return columns;
+
+         */
+        return null;
     }
 
     @Override

@@ -17,6 +17,7 @@ public class ExcelColumnGroupAnnotationProcessor implements ExcelAnnotationProce
 
     @Override
     public List<ExcelColumnDefinition> process(ExcelAnnotationContext context) {
+        /*
         ExcelMarkerTableColumnGrouping annotation = (ExcelMarkerTableColumnGrouping) context.getAnnotation();
         List<ExcelColumnDefinition> columns = context.getColumns();
         Field field = context.getField();
@@ -32,6 +33,9 @@ public class ExcelColumnGroupAnnotationProcessor implements ExcelAnnotationProce
                                                             .build();
         columns.add(column);
         return columns;
+
+         */
+        return null;
     }
 
     @Override

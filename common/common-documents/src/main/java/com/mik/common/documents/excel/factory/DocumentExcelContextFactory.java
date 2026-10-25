@@ -15,7 +15,7 @@ import java.util.List;
 @AllArgsConstructor
 public class DocumentExcelContextFactory {
 
-
+    /*
     public ExcelAnnotationContext createAnnotationContext(Annotation annotation, Class<?> clazz , List<?> data) {
         return ExcelAnnotationContext.builder()
                                      .annotation(annotation)
@@ -33,6 +33,8 @@ public class DocumentExcelContextFactory {
                                      .field(field)
                                      .build();
     }
+
+     */
 
     public ExcelExportContext createExportContext(DocumentConfiguration configuration) {
         return ExcelExportContext.builder()

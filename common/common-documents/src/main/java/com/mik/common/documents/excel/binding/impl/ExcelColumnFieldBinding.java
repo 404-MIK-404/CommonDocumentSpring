@@ -21,6 +21,7 @@ public class ExcelColumnFieldBinding implements ExcelAnnotationBinding {
 
     @Override
     public List<ExcelColumnDefinition> apply(ExcelAnnotationContext context) {
+        /*
         Field field = context.getField();
         ExcelMarkerTableColumn annotation =
                 (ExcelMarkerTableColumn) context.getAnnotation();
@@ -45,6 +46,9 @@ public class ExcelColumnFieldBinding implements ExcelAnnotationBinding {
                                                             .build();
 
         return List.of(column);
+
+         */
+        return null;
     }
 
     @Override
@@ -52,9 +56,12 @@ public class ExcelColumnFieldBinding implements ExcelAnnotationBinding {
         return ExcelColumnBindingType.FIELD;
     }
 
+    /*
     private String buildPath(String parentPath, Field field) {
         return (parentPath == null || parentPath.isEmpty())
                ? field.getName()
                : parentPath + "." + field.getName();
     }
+
+     */
 }

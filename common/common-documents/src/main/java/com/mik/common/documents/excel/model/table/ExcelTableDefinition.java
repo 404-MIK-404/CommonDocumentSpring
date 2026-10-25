@@ -1,6 +1,7 @@
 package com.mik.common.documents.excel.model.table;
 
 import com.fasterxml.jackson.databind.JsonNode;
+import com.mik.common.documents.excel.annotation.ExcelMode;
 import com.mik.common.documents.excel.annotation.table.ExcelMarkerTable;
 import com.mik.common.documents.excel.model.column.ExcelColumnDefinition;
 import com.mik.common.documents.excel.model.total.ExcelGrandTotalDefinition;
@@ -21,6 +22,27 @@ import java.util.List;
 @NoArgsConstructor
 public class ExcelTableDefinition {
 
+    private String id;
+
+    private ExcelMode mode;
+
+    private Class<?> clazz;
+
+    @Builder.Default
+    private List<JsonNode> data = new ArrayList<>();
+
+    @Builder.Default
+    private List<ExcelColumnDefinition> columns = new ArrayList<>();
+
+    @Builder.Default
+    private List<ExcelGrandTotalDefinition> grandTotals = new ArrayList<>();
+
+    @Builder.Default
+    private List<ExcelGroupTotalDefinition> groupTotals = new ArrayList<>();
+
+    private int totalspan;
+
+    /*
     @Builder.Default
     private ExcelMarkerTable table = null;
 
@@ -40,5 +62,7 @@ public class ExcelTableDefinition {
 
     @Builder.Default
     private int totalColspan = 0;
+
+     */
 
 }

@@ -1,5 +1,6 @@
 package com.mik.common.documents.pdf.facade;
 
+import com.mik.common.documents.exceptions.exception.DocumentException;
 import com.mik.common.documents.shared.facade.DocumentFacade;
 import com.mik.common.documents.shared.model.DocumentConfiguration;
 import com.mik.common.documents.shared.model.FileExport;

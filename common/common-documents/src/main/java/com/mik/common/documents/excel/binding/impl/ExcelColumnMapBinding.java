@@ -22,6 +22,7 @@ public class ExcelColumnMapBinding implements ExcelAnnotationBinding {
 
     @Override
     public List<ExcelColumnDefinition> apply(ExcelAnnotationContext context) {
+        /*
         Field field = context.getField();
 
         if (!isMapField(field)) {
@@ -31,6 +32,9 @@ public class ExcelColumnMapBinding implements ExcelAnnotationBinding {
         String pathValue = buildPath(context.getParentPath(), field);
 
         return new ArrayList<>(buildDynamicColumns(context, pathValue).values());
+
+         */
+        return null;
     }
 
     @Override
@@ -38,6 +42,7 @@ public class ExcelColumnMapBinding implements ExcelAnnotationBinding {
         return ExcelColumnBindingType.MAP;
     }
 
+    /*
     private boolean isMapField(Field field) {
         return ClassUtils.isAssignable(Map.class, field.getType());
     }
@@ -125,5 +130,7 @@ public class ExcelColumnMapBinding implements ExcelAnnotationBinding {
                                                                         .build()
         );
     }
+
+     */
 
 }

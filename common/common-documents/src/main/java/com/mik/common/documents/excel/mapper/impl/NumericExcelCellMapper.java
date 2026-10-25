@@ -19,6 +19,7 @@ public class NumericExcelCellMapper implements ExcelExportCellMapper<Number> {
 
     @Override
     public void writeToCell(Cell cell, Number value, ExcelColumnDefinition column) {
+        /*
         if (Objects.isNull(cell) || Objects.isNull(column) || !DocumentReflectionUtils.isNumberClass(value.getClass())) return;
         Workbook workbook = cell.getSheet().getWorkbook();
         boolean isDecimal = column.isDecimal();
@@ -44,10 +45,13 @@ public class NumericExcelCellMapper implements ExcelExportCellMapper<Number> {
         }
 
         cell.setCellStyle(newStyle);
+
+         */
     }
 
     @Override
     public void writeToCell(Cell cell, Number value, ExcelColumnDefinition column, CellStyle baseStyle) {
+        /*
         if (Objects.isNull(cell) || Objects.isNull(column) || !DocumentReflectionUtils.isNumberClass(value.getClass())) return;
         Workbook workbook = cell.getSheet().getWorkbook();
         boolean isDecimal = column.isDecimal();
@@ -71,12 +75,14 @@ public class NumericExcelCellMapper implements ExcelExportCellMapper<Number> {
             throw new RuntimeException(e);
         }
         cell.setCellStyle(newStyle);
+
+         */
     }
 
     @Override
     public void writeToCell(Cell cell, Number value) {
-        if (ExcelCellUtils.isCellAndValueIsNull(cell, value)) return;
-        cell.setCellValue(value.toString());
+        //if (ExcelCellUtils.isCellAndValueIsNull(cell, value)) return;
+        //cell.setCellValue(value.toString());
     }
 
     @Override

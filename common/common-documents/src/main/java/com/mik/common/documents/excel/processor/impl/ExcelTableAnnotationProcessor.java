@@ -23,6 +23,7 @@ public class ExcelTableAnnotationProcessor implements ExcelAnnotationProcessor<E
 
     @Override
     public ExcelTableDefinition process(ExcelAnnotationContext context) {
+        /*
         ExcelMarkerTable table = (ExcelMarkerTable) context.getAnnotation();
         List<JsonNode> data = DocumentReflectionDataExtractorUtils.convertToListJsonNode(context.getData());
         return ExcelTableDefinition.builder()
@@ -33,6 +34,9 @@ public class ExcelTableAnnotationProcessor implements ExcelAnnotationProcessor<E
                                    .totalColspan(table.totalColspan())
                                    .clazz(context.getClazz())
                                    .build();
+
+         */
+        return null;
     }
 
     @Override
@@ -40,7 +44,7 @@ public class ExcelTableAnnotationProcessor implements ExcelAnnotationProcessor<E
         return ExcelMarkerTable.class;
     }
 
-
+    /*
     private List<ExcelGrandTotalDefinition> buildGrandTotalDefinition(ExcelMarkerTableGroupTotal[] groupTotals) {
         List<ExcelGrandTotalDefinition> grandTotals = new ArrayList<>();
         for (ExcelMarkerTableGroupTotal groupTotal : groupTotals) {
@@ -80,5 +84,7 @@ public class ExcelTableAnnotationProcessor implements ExcelAnnotationProcessor<E
         }
         return definitionsRules;
     }
+
+     */
 
 }

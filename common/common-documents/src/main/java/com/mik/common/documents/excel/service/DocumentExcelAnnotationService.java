@@ -25,15 +25,16 @@ import java.util.stream.Collectors;
 @AllArgsConstructor
 public class DocumentExcelAnnotationService {
 
-    private final ExcelAnnotationScannerRegistry annotationScannerRegistry;
+    //private final ExcelAnnotationScannerRegistry annotationScannerRegistry;
 
-    private final Map<Class<? extends Annotation>, ExcelAnnotationProcessor> processors;
+    //private final Map<Class<? extends Annotation>, ExcelAnnotationProcessor> processors;
 
-    private DocumentExcelContextFactory factory;
+    //private DocumentExcelContextFactory factory;
 
-    private Set<Class<?>> visitedClazz;
+    //private Set<Class<?>> visitedClazz;
 
     public void processTableAnnotations(ExcelExportContext context) {
+        /*
         ExcelAnnotationProcessor<ExcelTableDefinition> processor =  annotationScannerRegistry.get(ExcelMarkerTable.class);
         if (Objects.isNull(context.getData())) return;
         context.getData().forEach((clazz, values) -> {
@@ -44,9 +45,12 @@ public class DocumentExcelAnnotationService {
                 context.getTables().put(id,table);
             });
         });
+
+         */
     }
 
     public void processColumnAnnotations(ExcelExportContext context) {
+        /*
         if (Objects.isNull(context.getData()) || Objects.isNull(context.getTables())) return;
         context.getTables().forEach((clazz, tableDefinition) -> {
             visitedClazz = new HashSet<>();
@@ -56,9 +60,12 @@ public class DocumentExcelAnnotationService {
             NodeExcelFieldAnnotation node = new NodeExcelFieldAnnotation(fields,tableDefinition.getClazz(),data,columns,"");
             processColumnAnnotationsField(node);
         });
+
+         */
     }
 
     public void processColumnGroupAnnotations(ExcelExportContext context) {
+        /*
         context.getTables().forEach((clazz, tableDefinition) -> {
             Set<ExcelColumnDefinition> visitedNodes = Collections.newSetFromMap(new IdentityHashMap<>());
             Deque<ExcelColumnDefinition> nodeToProcess = tableDefinition.getColumns().stream()
@@ -72,9 +79,12 @@ public class DocumentExcelAnnotationService {
                 processColumnAnnotationsFromClass(columnType,node,nodeToProcess,tableDefinition.getData(),path);
             }
         });
+
+         */
     }
 
     private void processColumnAnnotationsField(NodeExcelFieldAnnotation node) {
+        /*
         Class<?> clazz = node.clazz;
         if (!visitedClazz.add(clazz)) return;
         try {
@@ -92,9 +102,12 @@ public class DocumentExcelAnnotationService {
         } finally {
             visitedClazz.remove(clazz);
         }
+
+         */
     }
 
     private void processColumnMap(Annotation annotation, Field field, NodeExcelFieldAnnotation node) {
+        /*
         ExcelMarkerTableMapColumnGroup tableMapColumnAnnotation = (ExcelMarkerTableMapColumnGroup) annotation;
         String curPath = node.path;
         List<JsonNode> data = node.data;
@@ -119,10 +132,13 @@ public class DocumentExcelAnnotationService {
             processColumnAnnotationsField(nodeForward);
             node.columns.add(columnDefinition);
         }
+
+         */
     }
 
 
     private void processColumnAnnotationsFromClass(Class<?> clazz, ExcelColumnDefinition column, Deque<ExcelColumnDefinition> nodes, List<JsonNode> data, String path) {
+        /*
         DocumentExcelAnnotationUtil.forEachColumnAnnotation(clazz.getDeclaredFields(),((field, annotation) -> {
             Class<? extends Annotation> annotationType = annotation.annotationType();
             ExcelAnnotationProcessor<List<ExcelColumnDefinition>> analyzer = processors.get(annotationType);
@@ -137,14 +153,18 @@ public class DocumentExcelAnnotationService {
                 }
             }
         }));
+
+         */
     }
 
+    /*
     private boolean containsColumn(List<ExcelColumnDefinition> list,
                                    ExcelColumnDefinition target) {
         return list.stream().anyMatch(existing ->
                                               Objects.equals(existing.getName(), target.getName()) &&
                                               Objects.equals(existing.getPathField(), target.getPathField())
         );
+
     }
 
     private boolean isGroupColumn(ExcelColumnDefinition column) {
@@ -159,6 +179,8 @@ public class DocumentExcelAnnotationService {
             }
         }
     }
+
+     */
 
     private record NodeExcelFieldAnnotation(
             Field[] fields,

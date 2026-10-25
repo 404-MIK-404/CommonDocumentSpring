@@ -6,7 +6,6 @@ import com.mik.common.documents.excel.model.configuration.DocumentExcelConfigura
 import com.mik.common.documents.shared.controller.DocumentAbstractController;
 import com.mik.common.documents.shared.model.DocumentConfiguration;
 import com.mik.common.documents.shared.model.FileExport;
-import com.mik.common.documents.shared.service.DocumentPathResourcesService;
 import lombok.RequiredArgsConstructor;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.ss.usermodel.WorkbookFactory;
@@ -29,14 +28,12 @@ public class DocumentExcelController extends DocumentAbstractController<Document
 
     private final DocumentExcelResponseResponseFactory factory;
 
-    private final DocumentPathResourcesService service;
-
     private final DocumentExcelFacade facade;
 
     @Override
     public ResponseEntity<byte[]> exportDocument(DocumentConfiguration configuration) {
         String pathFileTemplate = configuration.getTemplate();
-        try (InputStream templateStream = service.getTemplate(pathFileTemplate)) {
+        try (InputStream templateStream = findTemplateDocument(pathFileTemplate)) {
             Path tempFile = Files.createTempFile("template-", ".xlsx");
             Files.copy(templateStream, tempFile, StandardCopyOption.REPLACE_EXISTING);
             try (InputStream tempFileStream = Files.newInputStream(tempFile)) {
@@ -65,12 +62,12 @@ public class DocumentExcelController extends DocumentAbstractController<Document
             DocumentConfiguration configurationMain
     ) {
         String pathFileTemplate = configurationMain.getTemplate();
-        try (InputStream fileMain = service.getTemplate(pathFileTemplate);
+        try (InputStream fileMain = findTemplateDocument(pathFileTemplate);
              Workbook workbook = WorkbookFactory.create(fileMain) ) {
             ByteArrayOutputStream output = new ByteArrayOutputStream();
             for (DocumentConfiguration configuration : configurations) {
                 String pathFileDynamicReport = configuration.getTemplate();
-                try (InputStream dynamicReportStream = service.getTemplate(pathFileDynamicReport)) {
+                try (InputStream dynamicReportStream = findTemplateDocument(pathFileDynamicReport)) {
                     facade.mergeDynamicReport(dynamicReportStream,workbook,configuration);
                 }
             }

@@ -18,6 +18,7 @@ public class StringExcelCellMapper implements ExcelExportCellMapper<String> {
 
     @Override
     public void writeToCell(Cell cell, String value, ExcelColumnDefinition column) {
+        /*
         if ( ExcelCellUtils.isCellAndValueIsNull(cell, value)) return;
         cell.setCellValue(value);
         Workbook workbook = cell.getSheet().getWorkbook();
@@ -37,10 +38,13 @@ public class StringExcelCellMapper implements ExcelExportCellMapper<String> {
             }
         }
         cell.setCellStyle(newStyle);
+
+         */
     }
 
     @Override
     public void writeToCell(Cell cell, String value, ExcelColumnDefinition column, CellStyle baseStyle) {
+        /*
         if (ExcelCellUtils.isCellAndValueIsNull(cell, value)) return;
 
         cell.setCellValue(value);
@@ -61,12 +65,14 @@ public class StringExcelCellMapper implements ExcelExportCellMapper<String> {
             }
         }
         cell.setCellStyle(newStyle);
+
+         */
     }
 
     @Override
     public void writeToCell(Cell cell, String value) {
-        if (ExcelCellUtils.isCellAndValueIsNull(cell, value)) return;
-        cell.setCellValue(value);
+        //if (ExcelCellUtils.isCellAndValueIsNull(cell, value)) return;
+        //cell.setCellValue(value);
     }
 
     @Override
