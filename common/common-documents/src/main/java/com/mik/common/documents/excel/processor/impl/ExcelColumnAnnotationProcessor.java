@@ -1,7 +1,5 @@
 package com.mik.common.documents.excel.processor.impl;
 
-import com.mik.common.documents.excel.annotation.column.ExcelMarkerTableColumn;
-import com.mik.common.documents.excel.binding.ExcelAnnotationBinding;
 import com.mik.common.documents.excel.model.column.ExcelColumnDefinition;
 import com.mik.common.documents.excel.model.context.ExcelAnnotationContext;
 import com.mik.common.documents.excel.processor.ExcelAnnotationProcessor;
@@ -10,7 +8,6 @@ import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Component;
 
 import java.lang.annotation.Annotation;
-import java.util.ArrayList;
 import java.util.List;
 
 @Component
@@ -36,6 +33,6 @@ public class ExcelColumnAnnotationProcessor implements ExcelAnnotationProcessor<
 
     @Override
     public Class<? extends Annotation> getAnnotationClass() {
-        return ExcelMarkerTableColumn.class;
+        return null;
     }
 }

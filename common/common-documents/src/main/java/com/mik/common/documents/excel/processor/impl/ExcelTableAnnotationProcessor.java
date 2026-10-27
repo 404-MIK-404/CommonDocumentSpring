@@ -1,21 +1,12 @@
 package com.mik.common.documents.excel.processor.impl;
 
-import com.fasterxml.jackson.databind.JsonNode;
-import com.mik.common.documents.excel.annotation.table.ExcelMarkerTable;
-import com.mik.common.documents.excel.annotation.table.ExcelMarkerTableColumnGroupRule;
-import com.mik.common.documents.excel.annotation.table.ExcelMarkerTableGroupTotal;
 import com.mik.common.documents.excel.model.context.ExcelAnnotationContext;
 import com.mik.common.documents.excel.model.table.ExcelTableDefinition;
-import com.mik.common.documents.excel.model.total.ExcelGrandTotalDefinition;
-import com.mik.common.documents.excel.model.total.ExcelGroupTotalDefinition;
-import com.mik.common.documents.excel.model.total.ExcelRuleTotalDefinition;
 import com.mik.common.documents.excel.processor.ExcelAnnotationProcessor;
-import com.mik.common.documents.util.DocumentReflectionDataExtractorUtils;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Component;
 
 import java.lang.annotation.Annotation;
-import java.util.*;
 
 @Component
 @AllArgsConstructor
@@ -41,7 +32,7 @@ public class ExcelTableAnnotationProcessor implements ExcelAnnotationProcessor<E
 
     @Override
     public Class<? extends Annotation> getAnnotationClass() {
-        return ExcelMarkerTable.class;
+        return null;
     }
 
     /*

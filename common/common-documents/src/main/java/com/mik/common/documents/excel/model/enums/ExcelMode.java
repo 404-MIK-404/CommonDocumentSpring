@@ -1,4 +1,4 @@
-package com.mik.common.documents.excel.annotation;
+package com.mik.common.documents.excel.model.enums;
 
 public enum ExcelMode {
 

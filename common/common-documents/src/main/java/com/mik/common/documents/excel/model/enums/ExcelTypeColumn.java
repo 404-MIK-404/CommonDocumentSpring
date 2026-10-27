@@ -1,19 +1,15 @@
-package com.mik.common.documents.excel.annotation;
+package com.mik.common.documents.excel.model.enums;
 
 /**
  * Тип колонки
  * <p>
- * {@link ExcelColumnBindingType#FIELD} {@link ExcelColumnBindingType#MAP}
+ * {@link ExcelTypeColumn#FIELD} {@link ExcelTypeColumn#MAP}
  *
  * **/
-public enum ExcelColumnBindingType {
+public enum ExcelTypeColumn {
 
     /** Примитивный/Wrapper тип или же класс.**/
     FIELD,
-
-    @Deprecated
-    /** Привязка к полю-list формата List<Object> **/
-    LIST,
 
     /**
      * Поле ключ -> значение.

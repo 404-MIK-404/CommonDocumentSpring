@@ -1,18 +1,12 @@
 package com.mik.common.documents.excel.binding.impl;
 
-import com.mik.common.documents.excel.annotation.ExcelColumnBindingType;
-import com.mik.common.documents.excel.annotation.column.ExcelMarkerTableColumn;
+import com.mik.common.documents.excel.model.enums.ExcelTypeColumn;
 import com.mik.common.documents.excel.binding.ExcelAnnotationBinding;
 import com.mik.common.documents.excel.model.column.ExcelColumnDefinition;
 import com.mik.common.documents.excel.model.context.ExcelAnnotationContext;
-import com.mik.common.documents.util.DocumentReflectionDataExtractorUtils;
-import com.mik.common.documents.util.DocumentReflectionUtils;
 import lombok.AllArgsConstructor;
-import org.springframework.core.ResolvableType;
 import org.springframework.stereotype.Component;
-import org.springframework.util.ClassUtils;
 
-import java.lang.reflect.Field;
 import java.util.*;
 
 
@@ -38,8 +32,8 @@ public class ExcelColumnMapBinding implements ExcelAnnotationBinding {
     }
 
     @Override
-    public ExcelColumnBindingType getBindingType() {
-        return ExcelColumnBindingType.MAP;
+    public ExcelTypeColumn getBindingType() {
+        return ExcelTypeColumn.MAP;
     }
 
     /*

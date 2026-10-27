@@ -1,6 +1,6 @@
 package com.mik.common.documents.excel.model.column;
 
-import com.mik.common.documents.excel.annotation.ExcelTotalBindingType;
+import com.mik.common.documents.excel.model.enums.ExcelTypeTotal;
 import com.mik.common.documents.excel.model.column.style.ExcelColumnStyleDefinition;
 import com.mik.common.documents.excel.model.column.style.ExcelDataStyleDefinition;
 import lombok.AllArgsConstructor;
@@ -33,7 +33,7 @@ public class ExcelColumnDefinition {
 
     private ExcelGroupColumnDefinition groups;
 
-    private ExcelTotalBindingType total;
+    private ExcelTypeTotal total;
 
     /*
 

@@ -1,8 +1,7 @@
 package com.mik.common.documents.excel.model.table;
 
 import com.fasterxml.jackson.databind.JsonNode;
-import com.mik.common.documents.excel.annotation.ExcelMode;
-import com.mik.common.documents.excel.annotation.table.ExcelMarkerTable;
+import com.mik.common.documents.excel.model.enums.ExcelMode;
 import com.mik.common.documents.excel.model.column.ExcelColumnDefinition;
 import com.mik.common.documents.excel.model.total.ExcelGrandTotalDefinition;
 import com.mik.common.documents.excel.model.total.ExcelGroupTotalDefinition;

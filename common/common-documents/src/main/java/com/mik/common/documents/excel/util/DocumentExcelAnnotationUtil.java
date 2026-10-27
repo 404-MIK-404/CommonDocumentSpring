@@ -1,20 +1,11 @@
 package com.mik.common.documents.excel.util;
 
-import com.mik.common.documents.excel.annotation.column.ExcelMarkerTableColumn;
-import com.mik.common.documents.excel.annotation.column.ExcelMarkerTableColumnGrouping;
-import com.mik.common.documents.excel.annotation.column.ExcelMarkerTableMapColumnGroup;
-import com.mik.common.documents.excel.annotation.table.ExcelMarkerTable;
 import lombok.experimental.UtilityClass;
-
-import java.lang.annotation.Annotation;
-import java.lang.reflect.Field;
-import java.util.Arrays;
-import java.util.function.BiConsumer;
-import java.util.function.Consumer;
 
 @UtilityClass
 public class DocumentExcelAnnotationUtil {
 
+    /*
     public void forEachTableAnnotation(final Class<?> clazz, Consumer<ExcelMarkerTable> consumer) {
         Arrays.stream(clazz.getAnnotations())
               .filter(DocumentExcelAnnotationUtil::isTableAnnotation)
@@ -53,6 +44,8 @@ public class DocumentExcelAnnotationUtil {
                ||
                annotation instanceof ExcelMarkerTableMapColumnGroup;
     }
+
+     */
 
 
 }

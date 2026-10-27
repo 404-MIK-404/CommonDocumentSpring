@@ -1,7 +1,7 @@
 package com.mik.common.documents.excel.annotation.table;
 
 
-import com.mik.common.documents.excel.annotation.ExcelMode;
+import com.mik.common.documents.excel.model.enums.ExcelMode;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
@@ -30,13 +30,13 @@ public @interface ExcelTable {
     int totalspan() default 0;
 
     /** Аннотация, которая описывает как группировать данные для таблицы Excel  **/
-    ExcelMarkerTableGroupTotal[] groupTotals() default {};
+    ExcelGroupTableTotal[] groupTotals() default {};
 
     /**
      * Аннотация, которая описывает какие итоговые значения ставить для таблицы Excel
      * @TODO Переработать этот параметр !
      * **/
-    ExcelMarkerTableGroupTotal[] grandTotals() default {};
+    ExcelGroupTableTotal[] grandTotals() default {};
 
 
 

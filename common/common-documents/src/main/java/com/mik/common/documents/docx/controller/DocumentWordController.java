@@ -20,8 +20,6 @@ public class DocumentWordController extends DocumentAbstractController {
 
     private final WordResponseFactory factory;
 
-    private final ClassLoader classLoader = this.getClass().getClassLoader();
-
     @Override
     public ResponseEntity<byte[]> exportDocument(DocumentConfiguration configuration) {
         return null;
@@ -35,7 +33,7 @@ public class DocumentWordController extends DocumentAbstractController {
     @Override
     public ResponseEntity<byte[]> loadDocument(DocumentConfiguration configuration) {
         String pathFileTemplate = configuration.getTemplate();
-        try (InputStream inputStream = classLoader.getResourceAsStream(pathFileTemplate)) {
+        try (InputStream inputStream = findTemplateDocument(pathFileTemplate)) {
             FileExport file = facade.loadTo(inputStream, configuration);
             return factory.createResponseEntity(file);
         } catch (IOException e) {

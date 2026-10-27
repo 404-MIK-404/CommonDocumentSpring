@@ -1,17 +1,12 @@
 package com.mik.common.documents.excel.binding.impl;
 
-import com.mik.common.documents.excel.annotation.ExcelColumnBindingType;
-import com.mik.common.documents.excel.annotation.column.ExcelMarkerTableColumn;
+import com.mik.common.documents.excel.model.enums.ExcelTypeColumn;
 import com.mik.common.documents.excel.binding.ExcelAnnotationBinding;
 import com.mik.common.documents.excel.model.column.ExcelColumnDefinition;
 import com.mik.common.documents.excel.model.context.ExcelAnnotationContext;
-import com.mik.common.documents.util.DocumentReflectionUtils;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Component;
 
-import java.lang.reflect.Field;
-import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 
@@ -52,8 +47,8 @@ public class ExcelColumnFieldBinding implements ExcelAnnotationBinding {
     }
 
     @Override
-    public ExcelColumnBindingType getBindingType() {
-        return ExcelColumnBindingType.FIELD;
+    public ExcelTypeColumn getBindingType() {
+        return ExcelTypeColumn.FIELD;
     }
 
     /*

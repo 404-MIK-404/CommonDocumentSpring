@@ -12,6 +12,7 @@ import com.mik.common.documents.shared.facade.DocumentFacade;
 import com.mik.common.documents.shared.model.DocumentConfiguration;
 import com.mik.common.documents.shared.model.FileExport;
 import lombok.AllArgsConstructor;
+import org.apache.commons.compress.utils.IOUtils;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
@@ -36,7 +37,13 @@ public class DocumentExcelFacade implements DocumentFacade<DocumentExcelConfigur
 
     @Override
     public FileExport loadTo(InputStream file, DocumentConfiguration configuration) {
-        return null;
+        try {
+            String fileName = configuration.getFileName();
+            byte[] fileBytes = IOUtils.toByteArray(file);
+            return new FileExport(fileName, fileBytes);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     @Override

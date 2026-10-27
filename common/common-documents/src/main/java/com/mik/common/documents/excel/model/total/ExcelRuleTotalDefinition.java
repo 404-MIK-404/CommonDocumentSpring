@@ -1,6 +1,6 @@
 package com.mik.common.documents.excel.model.total;
 
-import com.mik.common.documents.excel.annotation.ExcelTotalBindingType;
+import com.mik.common.documents.excel.model.enums.ExcelTypeTotal;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -18,7 +18,7 @@ public class ExcelRuleTotalDefinition {
     private String field = "";
 
     @Builder.Default
-    private ExcelTotalBindingType typeTotal = ExcelTotalBindingType.NONE;
+    private ExcelTypeTotal typeTotal = ExcelTypeTotal.NONE;
 
 
 

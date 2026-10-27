@@ -1,6 +1,5 @@
 package com.mik.common.documents.excel.util;
 
-import com.mik.common.documents.excel.annotation.style.ExcelMarkerTableStyleColumn;
 import lombok.experimental.UtilityClass;
 import org.apache.commons.codec.DecoderException;
 import org.apache.commons.codec.binary.Hex;
@@ -10,8 +9,6 @@ import org.apache.poi.hssf.util.HSSFColor;
 import org.apache.poi.ss.usermodel.*;
 import org.apache.poi.xssf.usermodel.XSSFColor;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
-
-import java.util.Objects;
 
 @UtilityClass
 public final class ExcelCellStyleUtils {
@@ -26,7 +23,9 @@ public final class ExcelCellStyleUtils {
         return cellStyle;
     }
 
+    /*
     public void applyConfigStyle(Workbook workbook, Cell cell, CellStyle cellStyle, ExcelMarkerTableStyleColumn annotationStyle) throws Exception {
+
         if (cellStyle == null) return;
         Row row = cell.getRow();
         Sheet sheet = cell.getSheet();
@@ -38,6 +37,16 @@ public final class ExcelCellStyleUtils {
         ExcelCellStyleUtils.setHeight(row,annotationStyle.style().height());
         ExcelCellStyleUtils.setWidth(sheet,indexColumn,annotationStyle.style().width());
         if (!Objects.isNull(annotationStyle.color())) ExcelCellStyleUtils.setBackgroundColor(workbook, annotationStyle.color().color(), cellStyle);
+    }
+
+     */
+
+    public void setStyleCell(Workbook workbook, Cell cell, CellStyle cellStyle) {
+
+    }
+
+    public void setStyleCell() {
+
     }
 
     public void setDecimalStyle(CellStyle style, Cell cell, boolean isDecimal) {

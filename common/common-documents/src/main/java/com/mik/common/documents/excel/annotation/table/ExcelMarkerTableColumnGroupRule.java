@@ -1,7 +1,7 @@
 package com.mik.common.documents.excel.annotation.table;
 
 
-import com.mik.common.documents.excel.annotation.ExcelTotalBindingType;
+import com.mik.common.documents.excel.model.enums.ExcelTypeTotal;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
@@ -25,6 +25,6 @@ public @interface ExcelMarkerTableColumnGroupRule {
     String field();
 
     /** Итоговое значение **/
-    ExcelTotalBindingType total() default ExcelTotalBindingType.NONE;
+    ExcelTypeTotal total() default ExcelTypeTotal.NONE;
 
 }

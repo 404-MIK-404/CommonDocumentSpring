@@ -14,7 +14,6 @@ import java.util.List;
 @NoArgsConstructor
 public class ExcelGroupColumnDefinition {
 
-
     private String title;
 
     private List<ExcelColumnDefinition> columns;
