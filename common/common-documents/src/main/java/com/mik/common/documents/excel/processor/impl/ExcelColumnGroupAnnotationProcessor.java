@@ -1,6 +1,7 @@
 package com.mik.common.documents.excel.processor.impl;
 
 import com.mik.common.documents.excel.model.column.ExcelColumnDefinition;
+import com.mik.common.documents.excel.model.context.ColumnContext;
 import com.mik.common.documents.excel.model.context.ExcelAnnotationContext;
 import com.mik.common.documents.excel.processor.ExcelAnnotationProcessor;
 import lombok.AllArgsConstructor;
@@ -11,10 +12,10 @@ import java.util.List;
 
 @Component
 @AllArgsConstructor
-public class ExcelColumnGroupAnnotationProcessor implements ExcelAnnotationProcessor<List<ExcelColumnDefinition>> {
+public class ExcelColumnGroupAnnotationProcessor implements ExcelAnnotationProcessor<List<ExcelColumnDefinition>, ColumnContext> {
 
     @Override
-    public List<ExcelColumnDefinition> process(ExcelAnnotationContext context) {
+    public List<ExcelColumnDefinition> process(ColumnContext context) {
         /*
         ExcelMarkerTableColumnGrouping annotation = (ExcelMarkerTableColumnGrouping) context.getAnnotation();
         List<ExcelColumnDefinition> columns = context.getColumns();

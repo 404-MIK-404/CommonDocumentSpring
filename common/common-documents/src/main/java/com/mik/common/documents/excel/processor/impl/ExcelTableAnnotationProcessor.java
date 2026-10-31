@@ -1,6 +1,8 @@
 package com.mik.common.documents.excel.processor.impl;
 
+import com.mik.common.documents.excel.annotation.table.ExcelTable;
 import com.mik.common.documents.excel.model.context.ExcelAnnotationContext;
+import com.mik.common.documents.excel.model.context.TableContext;
 import com.mik.common.documents.excel.model.table.ExcelTableDefinition;
 import com.mik.common.documents.excel.processor.ExcelAnnotationProcessor;
 import lombok.AllArgsConstructor;
@@ -10,10 +12,10 @@ import java.lang.annotation.Annotation;
 
 @Component
 @AllArgsConstructor
-public class ExcelTableAnnotationProcessor implements ExcelAnnotationProcessor<ExcelTableDefinition> {
+public class ExcelTableAnnotationProcessor implements ExcelAnnotationProcessor<ExcelTableDefinition, TableContext> {
 
     @Override
-    public ExcelTableDefinition process(ExcelAnnotationContext context) {
+    public ExcelTableDefinition process(TableContext context) {
         /*
         ExcelMarkerTable table = (ExcelMarkerTable) context.getAnnotation();
         List<JsonNode> data = DocumentReflectionDataExtractorUtils.convertToListJsonNode(context.getData());
@@ -32,7 +34,7 @@ public class ExcelTableAnnotationProcessor implements ExcelAnnotationProcessor<E
 
     @Override
     public Class<? extends Annotation> getAnnotationClass() {
-        return null;
+        return ExcelTable.class;
     }
 
     /*

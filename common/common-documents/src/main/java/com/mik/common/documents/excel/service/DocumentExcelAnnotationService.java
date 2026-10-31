@@ -1,8 +1,17 @@
 package com.mik.common.documents.excel.service;
 
 import com.fasterxml.jackson.databind.JsonNode;
+import com.mik.common.documents.excel.annotation.table.ExcelTable;
+import com.mik.common.documents.excel.factory.ExcelAnnotationContextFactory;
 import com.mik.common.documents.excel.model.column.ExcelColumnDefinition;
-import com.mik.common.documents.excel.model.context.ExcelExportContext;
+import com.mik.common.documents.excel.model.column.ExcelGroupColumnDefinition;
+import com.mik.common.documents.excel.model.context.ColumnContext;
+import com.mik.common.documents.excel.model.context.TableContext;
+import com.mik.common.documents.excel.model.table.ExcelTableDefinition;
+import com.mik.common.documents.excel.processor.ExcelAnnotationProcessor;
+import com.mik.common.documents.excel.util.DocumentExcelAnnotationUtil;
+import com.mik.common.documents.util.DocumentReflectionDataExtractorUtils;
+import com.mik.common.documents.util.DocumentReflectionUtils;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -16,14 +25,70 @@ public class DocumentExcelAnnotationService {
 
     //private final ExcelAnnotationScannerRegistry annotationScannerRegistry;
 
-    //private final Map<Class<? extends Annotation>, ExcelAnnotationProcessor> processors;
+    private final Map<Class<? extends Annotation>, ExcelAnnotationProcessor> processors;
+
+    private final ExcelAnnotationContextFactory factory;
 
     //private DocumentExcelContextFactory factory;
 
     //private Set<Class<?>> visitedClazz;
 
+    public List<ExcelTableDefinition> buildExcelStructureDefinition(List<List<?>> tables) {
+        Set<String> visited = new HashSet<>();
+        List<ExcelTableDefinition> definitions = new ArrayList<>();
+        for (List<?> table : tables) {
+            Class<?> clazzTable = DocumentReflectionUtils.getClassFromList(table);
+            if (clazzTable == null) continue;
+            ExcelTableDefinition tableDefinition = onProcessTableDefinition(visited, clazzTable, table);
+            if (tableDefinition == null) continue;
+            onProcessColumnDefinitionByClass(clazzTable, tableDefinition);
+            definitions.add(tableDefinition);
+        }
+        return definitions;
+    }
+
+    /** @TODO Изменить название функций */
+    private ExcelTableDefinition onProcessTableDefinition(Set<String> tableIds,Class<?> clazz, List<?> data) {
+        ExcelAnnotationProcessor<ExcelTableDefinition, TableContext> processor =  processors.get(ExcelTable.class);
+        List<ExcelTable> annotations = DocumentExcelAnnotationUtil.forEachTableAnnotation(clazz);
+        ExcelTableDefinition definition = null;
+        for (ExcelTable annotation : annotations) {
+            String id = annotation.id();
+            if (tableIds.contains(id)) continue;
+            TableContext context = factory.onCreateTableContext(annotation,data);
+            definition = processor.process(context);
+            definition.setData(DocumentReflectionDataExtractorUtils.convertToListJsonNode(data));
+        }
+        return definition;
+    }
+
+    private void onProcessColumnDefinitionByClass(Class<?> clazz, ExcelTableDefinition table) {
+        List<ExcelColumnDefinition> columns = table.getColumns();
+        Field[] fields = clazz.getDeclaredFields();
+        for (Field field : fields) {
+            List<Annotation> annotations = DocumentExcelAnnotationUtil.forEachColumnAnnotation(field);
+            for (Annotation annotation : annotations) {
+                Class<? extends Annotation> type = annotation.annotationType();
+                ExcelAnnotationProcessor processor = processors.get(type);
+                if (processor == null) continue;
+                ColumnContext context = factory.onCreateColumnContext(annotation,null, table.getData(), field);
+                ExcelColumnDefinition definition = (ExcelColumnDefinition) processor.process(context);
+                columns.add(definition);
+            }
+        }
+        for (ExcelColumnDefinition column : columns) {
+            ExcelGroupColumnDefinition group = column.getGroups();
+            if (group == null) continue;
+
+        }
+    }
+
+    /** @TODO Изменить название функций */
+    private void onProcessColumnDefinition(Class<?> clazz, ExcelColumnDefinition definition) {}
+
+
+    /*
     public void processTableAnnotations(ExcelExportContext context) {
-        /*
         ExcelAnnotationProcessor<ExcelTableDefinition> processor =  annotationScannerRegistry.get(ExcelMarkerTable.class);
         if (Objects.isNull(context.getData())) return;
         context.getData().forEach((clazz, values) -> {
@@ -34,12 +99,9 @@ public class DocumentExcelAnnotationService {
                 context.getTables().put(id,table);
             });
         });
-
-         */
     }
 
     public void processColumnAnnotations(ExcelExportContext context) {
-        /*
         if (Objects.isNull(context.getData()) || Objects.isNull(context.getTables())) return;
         context.getTables().forEach((clazz, tableDefinition) -> {
             visitedClazz = new HashSet<>();
@@ -49,12 +111,9 @@ public class DocumentExcelAnnotationService {
             NodeExcelFieldAnnotation node = new NodeExcelFieldAnnotation(fields,tableDefinition.getClazz(),data,columns,"");
             processColumnAnnotationsField(node);
         });
-
-         */
     }
 
     public void processColumnGroupAnnotations(ExcelExportContext context) {
-        /*
         context.getTables().forEach((clazz, tableDefinition) -> {
             Set<ExcelColumnDefinition> visitedNodes = Collections.newSetFromMap(new IdentityHashMap<>());
             Deque<ExcelColumnDefinition> nodeToProcess = tableDefinition.getColumns().stream()
@@ -68,12 +127,9 @@ public class DocumentExcelAnnotationService {
                 processColumnAnnotationsFromClass(columnType,node,nodeToProcess,tableDefinition.getData(),path);
             }
         });
-
-         */
     }
 
     private void processColumnAnnotationsField(NodeExcelFieldAnnotation node) {
-        /*
         Class<?> clazz = node.clazz;
         if (!visitedClazz.add(clazz)) return;
         try {
@@ -91,12 +147,9 @@ public class DocumentExcelAnnotationService {
         } finally {
             visitedClazz.remove(clazz);
         }
-
-         */
     }
 
     private void processColumnMap(Annotation annotation, Field field, NodeExcelFieldAnnotation node) {
-        /*
         ExcelMarkerTableMapColumnGroup tableMapColumnAnnotation = (ExcelMarkerTableMapColumnGroup) annotation;
         String curPath = node.path;
         List<JsonNode> data = node.data;
@@ -121,13 +174,10 @@ public class DocumentExcelAnnotationService {
             processColumnAnnotationsField(nodeForward);
             node.columns.add(columnDefinition);
         }
-
-         */
     }
 
 
     private void processColumnAnnotationsFromClass(Class<?> clazz, ExcelColumnDefinition column, Deque<ExcelColumnDefinition> nodes, List<JsonNode> data, String path) {
-        /*
         DocumentExcelAnnotationUtil.forEachColumnAnnotation(clazz.getDeclaredFields(),((field, annotation) -> {
             Class<? extends Annotation> annotationType = annotation.annotationType();
             ExcelAnnotationProcessor<List<ExcelColumnDefinition>> analyzer = processors.get(annotationType);
@@ -142,9 +192,9 @@ public class DocumentExcelAnnotationService {
                 }
             }
         }));
-
-         */
     }
+
+     */
 
     /*
     private boolean containsColumn(List<ExcelColumnDefinition> list,
@@ -178,5 +228,6 @@ public class DocumentExcelAnnotationService {
             List<ExcelColumnDefinition> columns,
             String path
     ) {}
+
 
 }

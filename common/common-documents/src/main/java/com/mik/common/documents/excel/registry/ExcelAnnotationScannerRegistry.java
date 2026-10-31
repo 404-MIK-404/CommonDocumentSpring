@@ -13,9 +13,12 @@ public class ExcelAnnotationScannerRegistry {
 
     private final Map<Class<? extends Annotation>, ExcelAnnotationProcessor> analyzers;
 
-    @SuppressWarnings("unchecked")
-    public <A extends Annotation,T> ExcelAnnotationProcessor<T> get(final Class<A> annotationType) {
+    //@SuppressWarnings("unchecked")
+    /*
+    public <A extends Annotation,T> ExcelAnnotationProcessor<T,C> get(final Class<A> annotationType) {
         return analyzers.get(annotationType);
     }
+
+     */
 
 }
