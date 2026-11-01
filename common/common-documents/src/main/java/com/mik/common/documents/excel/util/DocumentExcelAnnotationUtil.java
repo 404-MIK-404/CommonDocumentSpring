@@ -6,6 +6,7 @@ import com.mik.common.documents.excel.annotation.column.ExcelMapColumn;
 import com.mik.common.documents.excel.annotation.column.style.ExcelColumnStyle;
 import com.mik.common.documents.excel.annotation.column.style.ExcelDataStyle;
 import com.mik.common.documents.excel.annotation.table.ExcelTable;
+import com.mik.common.documents.excel.model.column.ExcelColumnDefinition;
 import lombok.experimental.UtilityClass;
 
 import java.lang.annotation.Annotation;
@@ -56,6 +57,21 @@ public class DocumentExcelAnnotationUtil {
                 consumer.accept(field,fieldAnnotation);
             }
         }
+    }
+
+    public String buildPathField(String parent, Field field) {
+        return (parent == null || parent.isEmpty())
+                ? field.getName()
+                : parent + "." + field.getName();
+    }
+
+    public String buildPathField(ExcelColumnDefinition column, Field field) {
+        String nameField = field.getName();
+        if (Objects.isNull(column)) return nameField;
+        String parent = column.getName();
+        return (parent == null || parent.isEmpty())
+                ? field.getName()
+                : parent + "." + field.getName();
     }
 
 

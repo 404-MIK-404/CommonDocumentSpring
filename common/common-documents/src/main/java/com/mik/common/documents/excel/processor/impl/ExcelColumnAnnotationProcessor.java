@@ -1,8 +1,10 @@
 package com.mik.common.documents.excel.processor.impl;
 
+import com.mik.common.documents.excel.annotation.column.ExcelColumn;
+import com.mik.common.documents.excel.binding.ExcelAnnotationBinding;
 import com.mik.common.documents.excel.model.column.ExcelColumnDefinition;
 import com.mik.common.documents.excel.model.context.ColumnContext;
-import com.mik.common.documents.excel.model.context.ExcelAnnotationContext;
+import com.mik.common.documents.excel.model.enums.ExcelTypeColumn;
 import com.mik.common.documents.excel.processor.ExcelAnnotationProcessor;
 import com.mik.common.documents.excel.registry.ExcelColumnBindingRegistry;
 import lombok.AllArgsConstructor;
@@ -13,27 +15,21 @@ import java.util.List;
 
 @Component
 @AllArgsConstructor
-public class ExcelColumnAnnotationProcessor implements ExcelAnnotationProcessor<List<ExcelColumnDefinition>, ColumnContext> {
+public class ExcelColumnAnnotationProcessor implements ExcelAnnotationProcessor<ExcelColumnDefinition, ColumnContext> {
 
-    private final ExcelColumnBindingRegistry bindingRegistry;
+    private final ExcelColumnBindingRegistry registry;
 
     @Override
-    public List<ExcelColumnDefinition> process(ColumnContext context) {
-        /*
-        ExcelMarkerTableColumn annotation = (ExcelMarkerTableColumn) context.getAnnotation();
-
-        ExcelAnnotationBinding strategy = bindingRegistry.get(annotation.type());
-        if (strategy == null) return new ArrayList<>();
-        List<ExcelColumnDefinition> columns = strategy.apply(context);
-        if (columns == null || columns.isEmpty()) return new ArrayList<>();
-        return columns;
-
-         */
-        return null;
+    public ExcelColumnDefinition process(ColumnContext context) {
+        ExcelColumn annotation = (ExcelColumn) context.annotation();
+        ExcelTypeColumn columnType = annotation.type();
+        ExcelAnnotationBinding binding = registry.get(columnType);
+        if (binding == null) return null;
+        return binding.binding(context);
     }
 
     @Override
     public Class<? extends Annotation> getAnnotationClass() {
-        return null;
+        return ExcelColumn.class;
     }
 }

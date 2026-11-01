@@ -71,16 +71,18 @@ public class DocumentExcelAnnotationService {
                 Class<? extends Annotation> type = annotation.annotationType();
                 ExcelAnnotationProcessor processor = processors.get(type);
                 if (processor == null) continue;
-                ColumnContext context = factory.onCreateColumnContext(annotation,null, table.getData(), field);
+                ColumnContext context = factory.onCreateColumnContext(columns,annotation,null, table.getData(), field);
                 ExcelColumnDefinition definition = (ExcelColumnDefinition) processor.process(context);
                 columns.add(definition);
             }
         }
+        /*
         for (ExcelColumnDefinition column : columns) {
             ExcelGroupColumnDefinition group = column.getGroups();
             if (group == null) continue;
 
         }
+        */
     }
 
     /** @TODO Изменить название функций */

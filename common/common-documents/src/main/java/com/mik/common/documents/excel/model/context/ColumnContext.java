@@ -13,6 +13,7 @@ import java.util.List;
 public record ColumnContext(
         Annotation annotation,
         ExcelColumnDefinition column,
+        List<ExcelColumnDefinition> columns,
         List<JsonNode> data,
         Field field
 ) implements ProcessorContext {
