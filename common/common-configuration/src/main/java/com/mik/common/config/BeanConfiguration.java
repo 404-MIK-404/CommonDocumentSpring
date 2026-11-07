@@ -1,10 +1,10 @@
 package com.mik.common.config;
 
-import com.mik.common.documents.excel.annotation.ExcelColumnBindingType;
+import com.mik.common.documents.excel.model.enums.ExcelTypeColumn;
 import com.mik.common.documents.excel.binding.ExcelAnnotationBinding;
 import com.mik.common.documents.excel.mapper.ExcelExportCellMapper;
 import com.mik.common.documents.excel.model.enums.ExcelSectionRender;
-import com.mik.common.documents.excel.processor.ExcelAnnotationProcessor;
+import com.mik.common.documents.excel.processor.column.ExcelAnnotationProcessor;
 import com.mik.common.documents.excel.render.ExcelRender;
 import com.mik.common.event.aop.aspects.ServiceLoggingCommonAspect;
 import org.springframework.context.annotation.Bean;
@@ -53,7 +53,7 @@ public class BeanConfiguration {
 
     @Bean
     @Lazy(false)
-    public Map<ExcelColumnBindingType, ExcelAnnotationBinding> excelAnnotationBindingMap(List<ExcelAnnotationBinding> listAnnotation) {
+    public Map<ExcelTypeColumn, ExcelAnnotationBinding> excelAnnotationBindingMap(List<ExcelAnnotationBinding> listAnnotation) {
         return listAnnotation.stream().collect(Collectors.toMap(ExcelAnnotationBinding::getBindingType,Function.identity()));
     }
 

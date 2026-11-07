@@ -2,32 +2,28 @@ package com.mik.common.documents.excel.facade;
 
 import com.mik.common.documents.excel.factory.DocumentExcelContextFactory;
 import com.mik.common.documents.excel.model.configuration.DocumentExcelConfiguration;
-import com.mik.common.documents.excel.model.context.ExcelExportContext;
 import com.mik.common.documents.excel.service.DocumentExcelAnnotationService;
 import com.mik.common.documents.excel.stage.ExcelWorkbookStage;
-import com.mik.common.documents.excel.util.ExcelSheetUtils;
+import com.mik.common.documents.exceptions.exception.DocumentException;
 import com.mik.common.documents.exceptions.runtime.DocumentRuntimeException;
 import com.mik.common.documents.shared.facade.DocumentFacade;
 import com.mik.common.documents.shared.model.DocumentConfiguration;
 import com.mik.common.documents.shared.model.FileExport;
 import lombok.AllArgsConstructor;
+import org.apache.commons.compress.utils.IOUtils;
 import org.apache.poi.ss.usermodel.Row;
-import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.ss.usermodel.WorkbookFactory;
 import org.springframework.stereotype.Component;
 
-import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.List;
-import java.util.Objects;
 
 @Component
 @AllArgsConstructor
 public class DocumentExcelFacade implements DocumentFacade<DocumentExcelConfiguration> {
 
-    private final DocumentExcelAnnotationService documentExcelAnnotationService;
+    private final DocumentExcelAnnotationService service;
 
     private final DocumentExcelContextFactory factory;
 
@@ -35,19 +31,26 @@ public class DocumentExcelFacade implements DocumentFacade<DocumentExcelConfigur
 
     @Override
     public FileExport loadTo(InputStream file, DocumentConfiguration configuration) {
-        return null;
+        try {
+            String fileName = configuration.getFileName();
+            byte[] fileBytes = IOUtils.toByteArray(file);
+            return new FileExport(fileName, fileBytes);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     @Override
     public FileExport exportTo(InputStream file, DocumentConfiguration configuration) {
-        ExcelExportContext context = factory.createExportContext(configuration);
+        //ExcelExportContext context = factory.createExportContext(configuration);
         try (Workbook workbook = WorkbookFactory.create(file)) {
             workbook.setMissingCellPolicy(Row.MissingCellPolicy.CREATE_NULL_AS_BLANK);
-            buildMetadata(context);
-            workbookStage.process(workbook, context);
-            workbook.setForceFormulaRecalculation(true);
-            addSheetsNames(configuration,null, workbook);
-            return buildFileExport(configuration.getFileName(),workbook);
+            //buildMetadata(context);
+            //workbookStage.process(workbook, context);
+            //workbook.setForceFormulaRecalculation(true);
+            //addSheetsNames(configuration,null, workbook);
+            //return buildFileExport(configuration.getFileName(),workbook);
+            return null;
         } catch (IOException ex) {
             throw new DocumentRuntimeException(ex);
         }
@@ -55,19 +58,21 @@ public class DocumentExcelFacade implements DocumentFacade<DocumentExcelConfigur
 
     @Override
     public FileExport toExport(InputStream file, DocumentExcelConfiguration configuration) throws DocumentException {
-        ExcelExportContext context = factory.createExportContext(configuration);
+        //ExcelExportContext context = factory.createExportContext(configuration);
         try (Workbook workbook = WorkbookFactory.create(file)) {
-            workbook.setMissingCellPolicy(Row.MissingCellPolicy.CREATE_NULL_AS_BLANK);
-            buildMetadata(context);
-            workbookStage.process(workbook, context);
-            workbook.setForceFormulaRecalculation(true);
-            addSheetsNames(configuration, null,workbook);
-            return buildFileExport(configuration.getFileName(),workbook);
+            //workbook.setMissingCellPolicy(Row.MissingCellPolicy.CREATE_NULL_AS_BLANK);
+            //buildMetadata(context);
+            //workbookStage.process(workbook, context);
+            //workbook.setForceFormulaRecalculation(true);
+            //addSheetsNames(configuration, null,workbook);
+            //return buildFileExport(configuration.getFileName(),workbook);
+            return null;
         } catch (IOException ex) {
             throw new DocumentRuntimeException(ex);
         }
     }
 
+    /*
     private void buildMetadata(ExcelExportContext context) {
         documentExcelAnnotationService.processTableAnnotations(context);
         documentExcelAnnotationService.processColumnAnnotations(context);
@@ -84,6 +89,9 @@ public class DocumentExcelFacade implements DocumentFacade<DocumentExcelConfigur
         }
     }
 
+     */
+
+    /*
     public void mergeDynamicReport(InputStream file, Workbook mainWorkbook, DocumentConfiguration configuration) {
         ExcelExportContext context = factory.createExportContext(configuration);
         try (Workbook workbook = WorkbookFactory.create(file)) {
@@ -98,7 +106,9 @@ public class DocumentExcelFacade implements DocumentFacade<DocumentExcelConfigur
         }
     }
 
+     */
 
+    /*
     private void addSheetsNames(DocumentConfiguration configuration,Workbook workbookSource ,Workbook workbookTarget) {
         if (Objects.isNull(workbookSource) || Objects.isNull(workbookTarget)) return;
         List<String> workbookNames = configuration.getWorkbookNames();
@@ -109,5 +119,7 @@ public class DocumentExcelFacade implements DocumentFacade<DocumentExcelConfigur
             ExcelSheetUtils.copySheet(sheet,workbookTarget,sheetName);
         }
     }
+
+     */
 
 }

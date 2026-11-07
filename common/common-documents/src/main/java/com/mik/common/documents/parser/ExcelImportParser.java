@@ -26,6 +26,7 @@ public class ExcelImportParser {
     private static final Map<Class<?>, Optional<Field>> SHEET_NAME_FIELDS = new ConcurrentHashMap<>();
 
     public <T> List<T> parse(MultipartFile file, Class<T> clazz) {
+        /*
         ExcelSheet meta = clazz.getAnnotation(ExcelSheet.class);
         try (Workbook workbook = WorkbookFactory.create(file.getInputStream())) {
             FormulaEvaluator evaluator = workbook.getCreationHelper().createFormulaEvaluator();
@@ -37,9 +38,13 @@ public class ExcelImportParser {
         } catch (Exception e) {
             throw new ExcelParseException("Не удалось открыть файл: " + file.getOriginalFilename(), e);
         }
+
+         */
+        return null;
     }
 
     public <T> Map<String, List<T>> parseAllSheetsGrouped(MultipartFile file, Class<T> clazz) {
+        /*
         ExcelSheet meta = clazz.getAnnotation(ExcelSheet.class);
         try (Workbook workbook = WorkbookFactory.create(file.getInputStream())) {
             FormulaEvaluator evaluator = workbook.getCreationHelper().createFormulaEvaluator();
@@ -51,9 +56,13 @@ public class ExcelImportParser {
         } catch (Exception e) {
             throw new ExcelParseException("Не удалось открыть файл: " + file.getOriginalFilename(), e);
         }
+
+         */
+        return null;
     }
 
     private List<Sheet> resolveSheets(Workbook workbook, ExcelSheet meta) {
+        /*
         if (meta != null && meta.allSheets()) {
             List<Sheet> sheets = new ArrayList<>();
             workbook.forEach(sheets::add);
@@ -67,9 +76,13 @@ public class ExcelImportParser {
         int index = meta != null ? meta.index() : 0;
         if (index >= workbook.getNumberOfSheets()) throw new ExcelParseException("Лист с индексом " + index + " отсутствует");
         return List.of(workbook.getSheetAt(index));
+
+         */
+        return null;
     }
 
     private <T> List<T> parseSheet(Sheet sheet, Class<T> clazz, ExcelSheet meta, FormulaEvaluator evaluator) {
+        /*
         int startRow = meta != null ? meta.startRow() : 0;
         List<T> result = new ArrayList<>();
         for (int i = startRow; i <= sheet.getLastRowNum(); i++) {
@@ -80,9 +93,13 @@ public class ExcelImportParser {
         }
         log.debug("Лист '{}': прочитано {} строк", sheet.getSheetName(), result.size());
         return result;
+
+         */
+        return null;
     }
 
     private <T> T mapRow(Row row, Class<T> clazz, String sheetName, int rowIndex, FormulaEvaluator evaluator) {
+        /*
         try {
             T instance = clazz.getDeclaredConstructor().newInstance();
             boolean isEmpty = true;
@@ -106,6 +123,9 @@ public class ExcelImportParser {
         } catch (Exception e) {
             throw new ExcelParseException("Не удалось создать объект " + clazz.getSimpleName() + " (строка " + (rowIndex + 1) + ")", e);
         }
+
+         */
+        return null;
     }
 
     private void setSheetName(Field field, Object instance, String sheetName) {

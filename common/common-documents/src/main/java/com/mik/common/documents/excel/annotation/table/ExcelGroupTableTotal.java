@@ -16,7 +16,8 @@ import java.lang.annotation.Target;
  */
 @Target(ElementType.FIELD)
 @Retention(RetentionPolicy.RUNTIME)
-public @interface ExcelMarkerTableGroupTotal {
+public @interface ExcelGroupTableTotal {
+
 
     /** Заголовок итоговой строки. */
     String title() default "ИТОГО ПО %s";
@@ -29,5 +30,6 @@ public @interface ExcelMarkerTableGroupTotal {
 
     /** Количество колонок, занимаемых ячейкой. */
     int totalColspan() default 0;
+
 
 }

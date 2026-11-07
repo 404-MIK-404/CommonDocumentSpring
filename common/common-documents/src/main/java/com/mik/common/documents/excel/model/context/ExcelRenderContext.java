@@ -15,14 +15,10 @@ import java.util.Map;
 @NoArgsConstructor
 public class ExcelRenderContext {
 
-    /**
-     * Оставляем
-     */
+    /** Оставляем **/
     private Map<String, Object> properties;
 
-    /*
-    * Оставляем
-    * */
+    /** Оставляем **/
     private ExcelTableDefinition table;
 
     /** Ключ для работы с property или таблицы **/

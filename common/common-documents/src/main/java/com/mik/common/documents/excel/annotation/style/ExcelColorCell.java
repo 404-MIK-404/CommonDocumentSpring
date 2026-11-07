@@ -1,12 +1,13 @@
 package com.mik.common.documents.excel.annotation.style;
 
+
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 /**
- * Аннотация для установки стилей и цвета для ячеек Excel
+ * Аннотация для установки цвета ячеек Excel.
  *
  * @see Target
  * @see Retention
@@ -15,12 +16,14 @@ import java.lang.annotation.Target;
  */
 @Target(ElementType.FIELD)
 @Retention(RetentionPolicy.RUNTIME)
-public @interface ExcelMarkerTableStyleColumn {
+public @interface ExcelColorCell {
 
-    /** Стили */
-    ExcelMarkerStyleCell style() default @ExcelMarkerStyleCell();
+    /**
+     * Цвет ячейки в формате HEX
+     * <p>
+     * Например: #FFFFFF.
+     **/
+    String color() default "";
 
-    /** Цвет */
-    ExcelMarkerColorStyleCell color() default @ExcelMarkerColorStyleCell();
 
 }

@@ -1,19 +1,10 @@
 package com.mik.common.documents.excel.stage;
 
-import com.mik.common.documents.excel.model.context.ExcelExportContext;
-import com.mik.common.documents.excel.model.context.ExcelRenderContext;
-import com.mik.common.documents.excel.model.enums.ExcelSectionRender;
-import com.mik.common.documents.excel.model.table.ExcelTableDefinition;
 import com.mik.common.documents.excel.registry.ExcelRendererTemplateRegistry;
-import com.mik.common.documents.excel.render.ExcelRender;
-import com.mik.common.documents.excel.util.ExcelCellUtils;
 import com.mik.common.documents.export.ExcelTemplateSyntax;
 import lombok.AllArgsConstructor;
-import org.apache.poi.ss.usermodel.Cell;
 import org.springframework.stereotype.Component;
 
-import java.util.Map;
-import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 @Component
@@ -24,6 +15,7 @@ public class ExcelCellStage {
 
     private final ExcelRendererTemplateRegistry renderRegistry;
 
+    /*
     public void processCell(Cell cell, ExcelExportContext properties) {
         StringBuilder value = valueFromCellToStringBuilder(cell);
         Matcher matcher = pattern.matcher(value.toString());
@@ -34,12 +26,16 @@ public class ExcelCellStage {
         }
     }
 
+
+
     private void dispatch(CellStage cellStage) {
         ExcelSectionRender render = cellStage.render;
         if (render == null) return;
         processCellProperty(cellStage);
         processCellTable(cellStage);
     }
+
+
 
     private void processCellTable(CellStage cellStage) {
         ExcelSectionRender renderType = cellStage.render;
@@ -85,5 +81,7 @@ public class ExcelCellStage {
             ExcelSectionRender render,
             ExcelExportContext properties
     ) {}
+
+     */
 
 }

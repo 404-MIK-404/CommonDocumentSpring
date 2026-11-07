@@ -1,11 +1,18 @@
 package com.mik.common.documents.excel.binding.impl;
 
-import com.mik.common.documents.excel.annotation.ExcelColumnBindingType;
-import com.mik.common.documents.excel.annotation.column.ExcelMarkerTableColumn;
+import com.fasterxml.jackson.databind.JsonNode;
+import com.mik.common.documents.excel.annotation.column.ExcelColumn;
+import com.mik.common.documents.excel.annotation.column.style.ExcelColumnStyle;
+import com.mik.common.documents.excel.annotation.column.style.ExcelDataStyle;
+import com.mik.common.documents.excel.factory.DocumentExcelDefinitionFactory;
+import com.mik.common.documents.excel.model.column.style.ExcelColumnStyleDefinition;
+import com.mik.common.documents.excel.model.column.style.ExcelDataStyleDefinition;
+import com.mik.common.documents.excel.model.context.ColumnContext;
+import com.mik.common.documents.excel.model.enums.ExcelTypeColumn;
 import com.mik.common.documents.excel.binding.ExcelAnnotationBinding;
 import com.mik.common.documents.excel.model.column.ExcelColumnDefinition;
 import com.mik.common.documents.excel.model.context.ExcelAnnotationContext;
-import com.mik.common.documents.util.DocumentReflectionDataExtractorUtils;
+import com.mik.common.documents.excel.util.DocumentExcelAnnotationUtil;
 import com.mik.common.documents.util.DocumentReflectionUtils;
 import lombok.AllArgsConstructor;
 import org.springframework.core.ResolvableType;
@@ -20,8 +27,11 @@ import java.util.*;
 @AllArgsConstructor
 public class ExcelColumnMapBinding implements ExcelAnnotationBinding {
 
+    private final DocumentExcelDefinitionFactory factory;
+
     @Override
     public List<ExcelColumnDefinition> apply(ExcelAnnotationContext context) {
+        /*
         Field field = context.getField();
 
         if (!isMapField(field)) {
@@ -31,13 +41,64 @@ public class ExcelColumnMapBinding implements ExcelAnnotationBinding {
         String pathValue = buildPath(context.getParentPath(), field);
 
         return new ArrayList<>(buildDynamicColumns(context, pathValue).values());
+
+         */
+        return null;
     }
 
     @Override
-    public ExcelColumnBindingType getBindingType() {
-        return ExcelColumnBindingType.MAP;
+    public ExcelColumnDefinition binding(ColumnContext context) {
+        Field field = context.field();
+        if (!ClassUtils.isAssignable(Map.class, field.getType())) return null;
+        ExcelColumnDefinition column = context.column();
+        String path = DocumentExcelAnnotationUtil.buildPathField(column, field);
+        List<ExcelColumnDefinition> columns = asdasd(context.data(),path, field);
+        return null;
     }
 
+
+    @Override
+    public ExcelTypeColumn getBindingType() {
+        return ExcelTypeColumn.MAP;
+    }
+
+    public List<ExcelColumnDefinition> asdasd(List<JsonNode> data, String path, Field field) {
+        List<ExcelColumnDefinition> columns = new ArrayList<>();
+        ExcelColumn annotation = field.getAnnotation(ExcelColumn.class);
+        ExcelColumnStyle columnStyle = field.getAnnotation(ExcelColumnStyle.class);
+        ExcelDataStyle dataStyle = field.getAnnotation(ExcelDataStyle.class);
+        Class<?> valueType = resolveValueType(field);
+        if (valueType == null) return Collections.emptyList();
+        Set<String> keysColumn = new HashSet<>();
+        for (JsonNode node : data) {
+            Iterator<String> iterable = node.get(path).fieldNames();
+            while (iterable.hasNext()) {
+                keysColumn.add(iterable.next());
+            }
+        }
+        for (String key : keysColumn) {
+            String pathField = path + "." + key;
+            ExcelColumnStyleDefinition columnStyleDefinition = factory.onCreateColumnStyle(columnStyle);
+            ExcelDataStyleDefinition dataStyleDefinition = factory.onCreateDataStyle(dataStyle);
+            ExcelColumnDefinition columnDefinition = factory.onCreateColumnDefinition(
+                    annotation,pathField,columnStyleDefinition, dataStyleDefinition
+            );
+            columns.add(columnDefinition);
+        }
+        return columns;
+    }
+
+    private Class<?> resolveValueType(Field field) {
+        ResolvableType type = ResolvableType.forField(field);
+        Class<?> key = type.getGeneric(0).resolve();
+        Class<?> value = type.getGeneric(1).resolve();
+        if (key != String.class || !DocumentReflectionUtils.isSimpleClass(value)) {
+            return null;
+        }
+        return value;
+    }
+
+    /*
     private boolean isMapField(Field field) {
         return ClassUtils.isAssignable(Map.class, field.getType());
     }
@@ -125,5 +186,7 @@ public class ExcelColumnMapBinding implements ExcelAnnotationBinding {
                                                                         .build()
         );
     }
+
+     */
 
 }

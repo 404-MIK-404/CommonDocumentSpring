@@ -30,6 +30,7 @@ public class ExcelTableColumnRender implements ExcelRender {
 
     @Override
     public void render(ExcelRenderContext context, Cell cell) {
+        /*
         Set<String> merged = new HashSet<>();
         ExcelTableDefinition table = context.getTable();
         Row row = cell.getRow();
@@ -47,6 +48,8 @@ public class ExcelTableColumnRender implements ExcelRender {
             int span = column.getSpan();
             indexColumn += width(column) + span;
         }
+
+         */
     }
 
     @Override
@@ -54,6 +57,7 @@ public class ExcelTableColumnRender implements ExcelRender {
         return ExcelSectionRender.COLUMNS;
     }
 
+    /*
     private void renderTableColumn(CellStyle style, NodeColumnCursor cursor, Sheet sheet, Set<String> merged , int maxDepth) {
         ExcelExportCellMapper<String> mapper = cellMapperRegistry.get(String.class);
         ExcelColumnDefinition column = cursor.column();
@@ -123,5 +127,7 @@ public class ExcelTableColumnRender implements ExcelRender {
             int depth,
             int mrgVertical
     ) {}
+
+     */
 
 }

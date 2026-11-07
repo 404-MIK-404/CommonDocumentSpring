@@ -23,6 +23,7 @@ public class BigDecimalExcelCellMapper implements ExcelExportCellMapper<BigDecim
 
     @Override
     public void writeToCell(Cell cell, BigDecimal value, ExcelColumnDefinition column) {
+        /*
         if (Objects.isNull(cell) || Objects.isNull(column) || !DocumentReflectionUtils.isNumberClass(value.getClass())) return;
         Workbook workbook = cell.getSheet().getWorkbook();
         boolean isDecimal = column.isDecimal();
@@ -47,10 +48,13 @@ public class BigDecimalExcelCellMapper implements ExcelExportCellMapper<BigDecim
             throw new RuntimeException(e);
         }
         cell.setCellStyle(newStyle);
+
+         */
     }
 
     @Override
     public void writeToCell(Cell cell, BigDecimal value, ExcelColumnDefinition column, CellStyle baseStyle) {
+        /*
         if (Objects.isNull(cell) || Objects.isNull(column) || !DocumentReflectionUtils.isNumberClass(value.getClass())) return;
         Workbook workbook = cell.getSheet().getWorkbook();
         boolean isDecimal = column.isDecimal();
@@ -74,12 +78,17 @@ public class BigDecimalExcelCellMapper implements ExcelExportCellMapper<BigDecim
             throw new RuntimeException(e);
         }
         cell.setCellStyle(newStyle);
+
+         */
     }
 
     @Override
     public void writeToCell(Cell cell, BigDecimal value) {
+        /*
         if (ExcelCellUtils.isCellAndValueIsNull(cell, value)) return;
         cell.setCellValue(value.toString());
+
+         */
     }
 
     @Override

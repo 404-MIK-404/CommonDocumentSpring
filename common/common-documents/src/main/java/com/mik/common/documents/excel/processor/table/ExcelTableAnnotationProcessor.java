@@ -1,46 +1,38 @@
-package com.mik.common.documents.excel.processor.impl;
+package com.mik.common.documents.excel.processor.table;
 
 import com.fasterxml.jackson.databind.JsonNode;
-import com.mik.common.documents.excel.annotation.table.ExcelMarkerTable;
-import com.mik.common.documents.excel.annotation.table.ExcelMarkerTableColumnGroupRule;
-import com.mik.common.documents.excel.annotation.table.ExcelMarkerTableGroupTotal;
-import com.mik.common.documents.excel.model.context.ExcelAnnotationContext;
+import com.mik.common.documents.excel.annotation.table.ExcelTable;
+import com.mik.common.documents.excel.factory.DocumentExcelDefinitionFactory;
+import com.mik.common.documents.excel.model.context.TableContext;
 import com.mik.common.documents.excel.model.table.ExcelTableDefinition;
-import com.mik.common.documents.excel.model.total.ExcelGrandTotalDefinition;
-import com.mik.common.documents.excel.model.total.ExcelGroupTotalDefinition;
-import com.mik.common.documents.excel.model.total.ExcelRuleTotalDefinition;
-import com.mik.common.documents.excel.processor.ExcelAnnotationProcessor;
+import com.mik.common.documents.excel.processor.column.ExcelAnnotationProcessor;
 import com.mik.common.documents.util.DocumentReflectionDataExtractorUtils;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Component;
 
 import java.lang.annotation.Annotation;
-import java.util.*;
+import java.util.List;
 
 @Component
 @AllArgsConstructor
-public class ExcelTableAnnotationProcessor implements ExcelAnnotationProcessor<ExcelTableDefinition> {
+public class ExcelTableAnnotationProcessor implements ExcelOneCreateAnnotationProcessor<ExcelTableDefinition, TableContext> {
+
+    private final DocumentExcelDefinitionFactory factory;
 
     @Override
-    public ExcelTableDefinition process(ExcelAnnotationContext context) {
-        ExcelMarkerTable table = (ExcelMarkerTable) context.getAnnotation();
-        List<JsonNode> data = DocumentReflectionDataExtractorUtils.convertToListJsonNode(context.getData());
-        return ExcelTableDefinition.builder()
-                                   .table(table)
-                                   .data(data)
-                                   .grandTotals(buildGrandTotalDefinition(table.grandTotals()))
-                                   .groupTotals(buildGroupTotalDefinition(table.groupTotals()))
-                                   .totalColspan(table.totalColspan())
-                                   .clazz(context.getClazz())
-                                   .build();
+    public ExcelTableDefinition process(TableContext context) {
+        ExcelTable annotation = context.annotation();
+        List<JsonNode> data = DocumentReflectionDataExtractorUtils.convertToListJsonNode(context.data());
+        return factory.onCreateTableDefinition(annotation,context.clazz(), data);
     }
 
     @Override
-    public Class<? extends Annotation> getAnnotationClass() {
-        return ExcelMarkerTable.class;
+    public Class<? extends Annotation> annotation() {
+        return ExcelTable.class;
     }
 
 
+    /*
     private List<ExcelGrandTotalDefinition> buildGrandTotalDefinition(ExcelMarkerTableGroupTotal[] groupTotals) {
         List<ExcelGrandTotalDefinition> grandTotals = new ArrayList<>();
         for (ExcelMarkerTableGroupTotal groupTotal : groupTotals) {
@@ -80,5 +72,7 @@ public class ExcelTableAnnotationProcessor implements ExcelAnnotationProcessor<E
         }
         return definitionsRules;
     }
+
+     */
 
 }

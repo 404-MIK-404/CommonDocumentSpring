@@ -15,7 +15,7 @@ import java.lang.annotation.Target;
  */
 @Target(ElementType.FIELD)
 @Retention(RetentionPolicy.RUNTIME)
-public @interface ExcelMarkerCell {
+public @interface ExcelCell {
 
     /**
      * Тип колонки таблицы.
@@ -25,8 +25,6 @@ public @interface ExcelMarkerCell {
      */
     Class<?> type();
 
-
-    /** Значение по умолчанию  **/
-    String defaultValue() default "";
+    boolean required() default true;
 
 }

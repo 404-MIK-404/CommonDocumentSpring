@@ -1,4 +1,4 @@
-package com.mik.common.documents.excel.annotation;
+package com.mik.common.documents.excel.model.enums;
 
 import com.mik.common.documents.excel.aggregation.*;
 import lombok.AllArgsConstructor;
@@ -17,7 +17,7 @@ import java.util.stream.Collectors;
  */
 @Getter
 @AllArgsConstructor
-public enum ExcelTotalBindingType {
+public enum ExcelTypeTotal {
 
     /** По умолчанию **/
     NONE(STTotalsRowFunction.NONE,null, null),

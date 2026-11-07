@@ -1,7 +1,9 @@
 package com.mik.common.documents.excel.binding;
 
 
-import com.mik.common.documents.excel.annotation.ExcelColumnBindingType;
+import com.mik.common.documents.excel.model.context.ColumnContext;
+import com.mik.common.documents.excel.model.context.ExcelBindingContext;
+import com.mik.common.documents.excel.model.enums.ExcelTypeColumn;
 import com.mik.common.documents.excel.model.column.ExcelColumnDefinition;
 import com.mik.common.documents.excel.model.context.ExcelAnnotationContext;
 
@@ -11,7 +13,9 @@ public interface ExcelAnnotationBinding {
 
     List<ExcelColumnDefinition> apply(ExcelAnnotationContext context);
 
-    ExcelColumnBindingType getBindingType();
+    ExcelColumnDefinition binding(ColumnContext context);
+
+    ExcelTypeColumn getBindingType();
 
 
 }

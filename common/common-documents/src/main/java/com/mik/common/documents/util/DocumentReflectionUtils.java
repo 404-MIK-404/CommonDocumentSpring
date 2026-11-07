@@ -7,6 +7,7 @@ import org.springframework.util.ClassUtils;
 import java.lang.reflect.Field;
 import java.math.BigDecimal;
 import java.util.Collection;
+import java.util.List;
 import java.util.Map;
 
 @UtilityClass
@@ -70,6 +71,14 @@ public final class DocumentReflectionUtils {
                || clazz == Long.class
                || clazz == Short.class
                || clazz == Byte.class;
+    }
+
+    public Class<?> getClassFromList(List<?> value) {
+        Class<?> clazz = value.getClass();
+        return ResolvableType
+                .forClass(clazz)
+                .getGeneric(0)
+                .resolve();
     }
 
 }

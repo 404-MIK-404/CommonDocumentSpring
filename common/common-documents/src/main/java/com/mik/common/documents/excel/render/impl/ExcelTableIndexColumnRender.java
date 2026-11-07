@@ -25,6 +25,7 @@ public class ExcelTableIndexColumnRender implements ExcelRender {
 
     @Override
     public void render(ExcelRenderContext context, Cell cell) {
+        /*
         ExcelTableDefinition table = context.getTable();
         Row row = cell.getRow();
         String command = context.getCommand();
@@ -38,6 +39,8 @@ public class ExcelTableIndexColumnRender implements ExcelRender {
             cellIndex.setCellFormula(formula);
             cellIndex.setCellStyle(style);
         }
+
+         */
     }
 
     @Override

@@ -1,26 +1,12 @@
 package com.mik.common.documents.excel.render.impl;
 
-import com.fasterxml.jackson.databind.JsonNode;
-import com.mik.common.documents.excel.annotation.ExcelTotalBindingType;
-import com.mik.common.documents.excel.mapper.ExcelExportCellMapper;
-import com.mik.common.documents.excel.model.column.ExcelColumnDefinition;
 import com.mik.common.documents.excel.model.context.ExcelRenderContext;
-import com.mik.common.documents.excel.model.context.RenderContext;
 import com.mik.common.documents.excel.model.enums.ExcelSectionRender;
 import com.mik.common.documents.excel.registry.ExcelCellMapperRegistry;
 import com.mik.common.documents.excel.render.ExcelRender;
-import com.mik.common.documents.excel.util.ExcelCellStyleUtils;
-import com.mik.common.documents.excel.util.ExcelCellUtils;
-import com.mik.common.documents.excel.util.ExcelColumnDefinitionUtils;
-import com.mik.common.documents.util.DocumentReflectionDataExtractorUtils;
 import lombok.AllArgsConstructor;
 import org.apache.poi.ss.usermodel.Cell;
-import org.apache.poi.ss.usermodel.CellStyle;
-import org.apache.poi.ss.usermodel.Row;
 import org.springframework.stereotype.Component;
-
-import java.math.BigDecimal;
-import java.util.List;
 
 @Component
 @AllArgsConstructor
@@ -30,6 +16,7 @@ public class ExcelTableTotalRender implements ExcelRender {
 
     @Override
     public void render(ExcelRenderContext context, Cell cell) {
+        /*
         int totalColspan = context.getTable().getTotalColspan();
         Row row = cell.getRow();
         RenderContext renderContext = new RenderContext(
@@ -44,6 +31,8 @@ public class ExcelTableTotalRender implements ExcelRender {
 
         renderTitle(renderContext, cellStyle);
         renderValues(renderContext, cellStyle);
+
+         */
     }
 
     @Override
@@ -51,6 +40,7 @@ public class ExcelTableTotalRender implements ExcelRender {
         return ExcelSectionRender.TOTAL;
     }
 
+    /*
     private void renderTitle(RenderContext context, CellStyle cellStyle) {
         Cell cell = context.cell();
         int totalColspan = context.table().getTotalColspan();
@@ -88,6 +78,8 @@ public class ExcelTableTotalRender implements ExcelRender {
         return data.stream().map(vl-> DocumentReflectionDataExtractorUtils.<BigDecimal>invokeData(vl, typeValue, column.getPathField()))
                    .collect(totalBindingType.getCollector());
     }
+
+     */
 
 
 }

@@ -19,6 +19,7 @@ public class BooleanExcelCellMapper implements ExcelExportCellMapper<Boolean> {
 
     @Override
     public void writeToCell(Cell cell, Boolean value, ExcelColumnDefinition column) {
+        /*
         if (Objects.isNull(cell)) return;
         cell.setCellValue(value);
         Workbook workbook = cell.getSheet().getWorkbook();
@@ -38,10 +39,13 @@ public class BooleanExcelCellMapper implements ExcelExportCellMapper<Boolean> {
             }
         }
         cell.setCellStyle(newStyle);
+
+         */
     }
 
     @Override
     public void writeToCell(Cell cell, Boolean value, ExcelColumnDefinition column, CellStyle baseStyle) {
+        /*
         if (ExcelCellUtils.isCellAndValueIsNull(cell, value)) return;
 
         cell.setCellValue(value);
@@ -62,11 +66,13 @@ public class BooleanExcelCellMapper implements ExcelExportCellMapper<Boolean> {
             }
         }
         cell.setCellStyle(newStyle);
+
+         */
     }
 
     @Override
     public void writeToCell(Cell cell, Boolean value) {
-        cell.setCellValue(value);
+        //cell.setCellValue(value);
     }
 
     @Override

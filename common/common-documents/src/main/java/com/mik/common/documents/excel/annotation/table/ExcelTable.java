@@ -1,10 +1,12 @@
 package com.mik.common.documents.excel.annotation.table;
 
+
+import com.mik.common.documents.excel.model.enums.ExcelMode;
+
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
-
 
 /**
  *
@@ -15,24 +17,27 @@ import java.lang.annotation.Target;
  * @see ElementType#FIELD
  * @see RetentionPolicy#RUNTIME
  */
-@Target(ElementType.TYPE)
+@Target(ElementType.FIELD)
 @Retention(RetentionPolicy.RUNTIME)
-public @interface ExcelMarkerTable {
+public @interface ExcelTable {
+
+    ExcelMode mode() default ExcelMode.BOTH;
 
     /** ID таблицы **/
     String id() default "";
 
     /** Количество колонок, занимаемых ячейкой. */
-    int totalColspan() default 0;
-
+    int totalspan() default 0;
 
     /** Аннотация, которая описывает как группировать данные для таблицы Excel  **/
-    ExcelMarkerTableGroupTotal[] groupTotals() default {};
+    ExcelGroupTableTotal[] groupTotals() default {};
 
     /**
      * Аннотация, которая описывает какие итоговые значения ставить для таблицы Excel
      * @TODO Переработать этот параметр !
      * **/
-    ExcelMarkerTableGroupTotal[] grandTotals() default {};
+    ExcelGroupTableTotal[] grandTotals() default {};
+
+
 
 }

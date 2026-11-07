@@ -12,7 +12,7 @@ import java.util.List;
 @UtilityClass
 public class ExcelColumnDefinitionUtils {
 
-
+    /*
     public static List<ExcelColumnDefinition> getColumnDefinitions(List<ExcelColumnDefinition> columns) {
         List<ExcelColumnDefinition> result = new ArrayList<>();
         columns.forEach(column -> {
@@ -43,6 +43,8 @@ public class ExcelColumnDefinitionUtils {
         return depth;
     }
 
+
+
     private static int getDepth(ExcelColumnDefinition columnNode, int depth) {
         if (columnNode.getChildren() == null || columnNode.getChildren().isEmpty()) {
             return depth;
@@ -54,5 +56,7 @@ public class ExcelColumnDefinitionUtils {
         }
         return max;
     }
+
+     */
 
 }
