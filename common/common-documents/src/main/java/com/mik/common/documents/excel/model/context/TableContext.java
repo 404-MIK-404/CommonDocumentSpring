@@ -8,6 +8,7 @@ import java.util.List;
 @Builder
 public record TableContext(
         ExcelTable annotation,
+        Class<?> clazz,
         List<?> data
 ) implements ProcessorContext {
 }

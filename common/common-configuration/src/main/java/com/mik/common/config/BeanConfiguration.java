@@ -4,7 +4,7 @@ import com.mik.common.documents.excel.model.enums.ExcelTypeColumn;
 import com.mik.common.documents.excel.binding.ExcelAnnotationBinding;
 import com.mik.common.documents.excel.mapper.ExcelExportCellMapper;
 import com.mik.common.documents.excel.model.enums.ExcelSectionRender;
-import com.mik.common.documents.excel.processor.ExcelAnnotationProcessor;
+import com.mik.common.documents.excel.processor.column.ExcelAnnotationProcessor;
 import com.mik.common.documents.excel.render.ExcelRender;
 import com.mik.common.event.aop.aspects.ServiceLoggingCommonAspect;
 import org.springframework.context.annotation.Bean;

@@ -8,7 +8,8 @@ import com.mik.common.documents.excel.model.column.ExcelGroupColumnDefinition;
 import com.mik.common.documents.excel.model.context.ColumnContext;
 import com.mik.common.documents.excel.model.context.TableContext;
 import com.mik.common.documents.excel.model.table.ExcelTableDefinition;
-import com.mik.common.documents.excel.processor.ExcelAnnotationProcessor;
+import com.mik.common.documents.excel.processor.column.ExcelAnnotationProcessor;
+import com.mik.common.documents.excel.processor.table.ExcelTableAnnotationProcessor;
 import com.mik.common.documents.excel.util.DocumentExcelAnnotationUtil;
 import com.mik.common.documents.util.DocumentReflectionDataExtractorUtils;
 import com.mik.common.documents.util.DocumentReflectionUtils;
@@ -27,6 +28,8 @@ public class DocumentExcelAnnotationService {
 
     private final Map<Class<? extends Annotation>, ExcelAnnotationProcessor> processors;
 
+    private ExcelTableAnnotationProcessor tableAnnotationProcessor;
+
     private final ExcelAnnotationContextFactory factory;
 
     //private DocumentExcelContextFactory factory;
@@ -42,6 +45,7 @@ public class DocumentExcelAnnotationService {
             ExcelTableDefinition tableDefinition = onProcessTableDefinition(visited, clazzTable, table);
             if (tableDefinition == null) continue;
             onProcessColumnDefinitionByClass(clazzTable, tableDefinition);
+            onProcessColumnDefinitionByTable(tableDefinition);
             definitions.add(tableDefinition);
         }
         return definitions;
@@ -49,14 +53,13 @@ public class DocumentExcelAnnotationService {
 
     /** @TODO Изменить название функций */
     private ExcelTableDefinition onProcessTableDefinition(Set<String> tableIds,Class<?> clazz, List<?> data) {
-        ExcelAnnotationProcessor<ExcelTableDefinition, TableContext> processor =  processors.get(ExcelTable.class);
         List<ExcelTable> annotations = DocumentExcelAnnotationUtil.forEachTableAnnotation(clazz);
         ExcelTableDefinition definition = null;
         for (ExcelTable annotation : annotations) {
             String id = annotation.id();
             if (tableIds.contains(id)) continue;
-            TableContext context = factory.onCreateTableContext(annotation,data);
-            definition = processor.process(context);
+            TableContext context = factory.onCreateTableContext(annotation,clazz,data);
+            definition = tableAnnotationProcessor.process(context);
             definition.setData(DocumentReflectionDataExtractorUtils.convertToListJsonNode(data));
         }
         return definition;
@@ -72,21 +75,40 @@ public class DocumentExcelAnnotationService {
                 ExcelAnnotationProcessor processor = processors.get(type);
                 if (processor == null) continue;
                 ColumnContext context = factory.onCreateColumnContext(columns,annotation,null, table.getData(), field);
-                ExcelColumnDefinition definition = (ExcelColumnDefinition) processor.process(context);
-                columns.add(definition);
+                processor.process(context);
             }
         }
-        /*
+        table.setColumns(columns);
+    }
+
+    private void onProcessColumnDefinitionByTable(ExcelTableDefinition table) {
+        List<ExcelColumnDefinition> columns = table.getColumns();
         for (ExcelColumnDefinition column : columns) {
+            Class<?> clazz = column.getClazz();
             ExcelGroupColumnDefinition group = column.getGroups();
             if (group == null) continue;
-
+            NodeExcel node = new NodeExcel(column, clazz, table.getData());
+            onProcessNodeColumnGroup(node);
         }
-        */
+    }
+
+    private void onProcessNodeColumnGroup(NodeExcel node) {
+        Set<ExcelColumnDefinition> visitedNodes = Collections.newSetFromMap(new IdentityHashMap<>());
+        Deque<ExcelColumnDefinition> nodes = new ArrayDeque<>();
+        nodes.add(node.column);
+        while(!nodes.isEmpty()) {
+            ExcelColumnDefinition column = nodes.pop();
+            Class<?> columnType = column.getClazz();
+            String path = column.getPath();
+            if (!visitedNodes.add(column) && DocumentReflectionUtils.isSimpleClass(columnType)) continue;
+            //processColumnAnnotationsFromClass(columnType,node,nodeToProcess,tableDefinition.getData(),path);
+        }
     }
 
     /** @TODO Изменить название функций */
-    private void onProcessColumnDefinition(Class<?> clazz, ExcelColumnDefinition definition) {}
+    private void onProcessColumnDefinition(Class<?> clazz, ExcelColumnDefinition definition) {
+
+    }
 
 
     /*
@@ -230,6 +252,13 @@ public class DocumentExcelAnnotationService {
             List<ExcelColumnDefinition> columns,
             String path
     ) {}
+
+
+    private record NodeExcel(
+            ExcelColumnDefinition column,
+            Class<?> clazz,
+            List<JsonNode> data
+    ){}
 
 
 }

@@ -1,12 +1,21 @@
 package com.mik.common.documents.excel.binding.impl;
 
+import com.fasterxml.jackson.databind.JsonNode;
+import com.mik.common.documents.excel.annotation.column.ExcelColumn;
+import com.mik.common.documents.excel.annotation.column.style.ExcelColumnStyle;
+import com.mik.common.documents.excel.annotation.column.style.ExcelDataStyle;
+import com.mik.common.documents.excel.factory.DocumentExcelDefinitionFactory;
+import com.mik.common.documents.excel.model.column.style.ExcelColumnStyleDefinition;
+import com.mik.common.documents.excel.model.column.style.ExcelDataStyleDefinition;
 import com.mik.common.documents.excel.model.context.ColumnContext;
-import com.mik.common.documents.excel.model.context.ExcelBindingContext;
 import com.mik.common.documents.excel.model.enums.ExcelTypeColumn;
 import com.mik.common.documents.excel.binding.ExcelAnnotationBinding;
 import com.mik.common.documents.excel.model.column.ExcelColumnDefinition;
 import com.mik.common.documents.excel.model.context.ExcelAnnotationContext;
+import com.mik.common.documents.excel.util.DocumentExcelAnnotationUtil;
+import com.mik.common.documents.util.DocumentReflectionUtils;
 import lombok.AllArgsConstructor;
+import org.springframework.core.ResolvableType;
 import org.springframework.stereotype.Component;
 import org.springframework.util.ClassUtils;
 
@@ -17,6 +26,8 @@ import java.util.*;
 @Component
 @AllArgsConstructor
 public class ExcelColumnMapBinding implements ExcelAnnotationBinding {
+
+    private final DocumentExcelDefinitionFactory factory;
 
     @Override
     public List<ExcelColumnDefinition> apply(ExcelAnnotationContext context) {
@@ -39,8 +50,9 @@ public class ExcelColumnMapBinding implements ExcelAnnotationBinding {
     public ExcelColumnDefinition binding(ColumnContext context) {
         Field field = context.field();
         if (!ClassUtils.isAssignable(Map.class, field.getType())) return null;
-
-
+        ExcelColumnDefinition column = context.column();
+        String path = DocumentExcelAnnotationUtil.buildPathField(column, field);
+        List<ExcelColumnDefinition> columns = asdasd(context.data(),path, field);
         return null;
     }
 
@@ -50,8 +62,40 @@ public class ExcelColumnMapBinding implements ExcelAnnotationBinding {
         return ExcelTypeColumn.MAP;
     }
 
-    private void onBuildMapWrapper() {
+    public List<ExcelColumnDefinition> asdasd(List<JsonNode> data, String path, Field field) {
+        List<ExcelColumnDefinition> columns = new ArrayList<>();
+        ExcelColumn annotation = field.getAnnotation(ExcelColumn.class);
+        ExcelColumnStyle columnStyle = field.getAnnotation(ExcelColumnStyle.class);
+        ExcelDataStyle dataStyle = field.getAnnotation(ExcelDataStyle.class);
+        Class<?> valueType = resolveValueType(field);
+        if (valueType == null) return Collections.emptyList();
+        Set<String> keysColumn = new HashSet<>();
+        for (JsonNode node : data) {
+            Iterator<String> iterable = node.get(path).fieldNames();
+            while (iterable.hasNext()) {
+                keysColumn.add(iterable.next());
+            }
+        }
+        for (String key : keysColumn) {
+            String pathField = path + "." + key;
+            ExcelColumnStyleDefinition columnStyleDefinition = factory.onCreateColumnStyle(columnStyle);
+            ExcelDataStyleDefinition dataStyleDefinition = factory.onCreateDataStyle(dataStyle);
+            ExcelColumnDefinition columnDefinition = factory.onCreateColumnDefinition(
+                    annotation,pathField,columnStyleDefinition, dataStyleDefinition
+            );
+            columns.add(columnDefinition);
+        }
+        return columns;
+    }
 
+    private Class<?> resolveValueType(Field field) {
+        ResolvableType type = ResolvableType.forField(field);
+        Class<?> key = type.getGeneric(0).resolve();
+        Class<?> value = type.getGeneric(1).resolve();
+        if (key != String.class || !DocumentReflectionUtils.isSimpleClass(value)) {
+            return null;
+        }
+        return value;
     }
 
     /*

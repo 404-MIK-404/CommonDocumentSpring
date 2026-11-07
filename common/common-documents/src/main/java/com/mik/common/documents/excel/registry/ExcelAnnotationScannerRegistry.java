@@ -1,6 +1,6 @@
 package com.mik.common.documents.excel.registry;
 
-import com.mik.common.documents.excel.processor.ExcelAnnotationProcessor;
+import com.mik.common.documents.excel.processor.column.ExcelAnnotationProcessor;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Component;
 

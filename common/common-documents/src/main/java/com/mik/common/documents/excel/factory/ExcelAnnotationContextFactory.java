@@ -19,9 +19,10 @@ public class ExcelAnnotationContextFactory {
 
 
 
-    public TableContext onCreateTableContext(ExcelTable annotation, List<?> data) {
+    public TableContext onCreateTableContext(ExcelTable annotation, Class<?> clazz, List<?> data) {
         return TableContext.builder()
                 .annotation(annotation)
+                .clazz(clazz)
                 .data(data)
                 .build();
     }

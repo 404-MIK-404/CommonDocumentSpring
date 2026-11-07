@@ -1,4 +1,4 @@
-package com.mik.common.documents.excel.processor;
+package com.mik.common.documents.excel.processor.column;
 
 
 import com.mik.common.documents.excel.model.context.ProcessorContext;
