@@ -20,6 +20,8 @@ public class DocumentConfiguration {
 
     protected Map<Class<?>, List<?>> data;
 
+    protected List<List<?>> values;
+
     /**
      * Имена sheet-s из workbook-а
      */

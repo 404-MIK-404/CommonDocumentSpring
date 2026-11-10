@@ -2,6 +2,7 @@ package com.mik.common.documents.excel.facade;
 
 import com.mik.common.documents.excel.factory.DocumentExcelContextFactory;
 import com.mik.common.documents.excel.model.configuration.DocumentExcelConfiguration;
+import com.mik.common.documents.excel.model.table.ExcelTableDefinition;
 import com.mik.common.documents.excel.service.DocumentExcelAnnotationService;
 import com.mik.common.documents.excel.stage.ExcelWorkbookStage;
 import com.mik.common.documents.exceptions.exception.DocumentException;
@@ -18,6 +19,7 @@ import org.springframework.stereotype.Component;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.List;
 
 @Component
 @AllArgsConstructor
@@ -43,11 +45,15 @@ public class DocumentExcelFacade implements DocumentFacade<DocumentExcelConfigur
     @Override
     public FileExport exportTo(InputStream file, DocumentConfiguration configuration) {
         //ExcelExportContext context = factory.createExportContext(configuration);
+        List<List<?>> values = configuration.getValues();
         try (Workbook workbook = WorkbookFactory.create(file)) {
             workbook.setMissingCellPolicy(Row.MissingCellPolicy.CREATE_NULL_AS_BLANK);
+            List<ExcelTableDefinition> tables = service.buildExcelStructureDefinition(values);
+
             //buildMetadata(context);
+
             //workbookStage.process(workbook, context);
-            //workbook.setForceFormulaRecalculation(true);
+            workbook.setForceFormulaRecalculation(true);
             //addSheetsNames(configuration,null, workbook);
             //return buildFileExport(configuration.getFileName(),workbook);
             return null;

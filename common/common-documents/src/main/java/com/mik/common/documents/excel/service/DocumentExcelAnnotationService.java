@@ -45,7 +45,7 @@ public class DocumentExcelAnnotationService {
             ExcelTableDefinition tableDefinition = onProcessTableDefinition(visited, clazzTable, table);
             if (tableDefinition == null) continue;
             onProcessColumnDefinitionByClass(clazzTable, tableDefinition);
-            onProcessColumnDefinitionByTable(tableDefinition);
+            onProcessColumnDefinitionByTable(tableDefinition.getColumns(), tableDefinition.getData());
             definitions.add(tableDefinition);
         }
         return definitions;
@@ -72,36 +72,57 @@ public class DocumentExcelAnnotationService {
             List<Annotation> annotations = DocumentExcelAnnotationUtil.forEachColumnAnnotation(field);
             for (Annotation annotation : annotations) {
                 Class<? extends Annotation> type = annotation.annotationType();
-                ExcelAnnotationProcessor processor = processors.get(type);
+                ExcelAnnotationProcessor<ColumnContext> processor = processors.get(type);
                 if (processor == null) continue;
-                ColumnContext context = factory.onCreateColumnContext(columns,annotation,null, table.getData(), field);
-                processor.process(context);
+                ColumnContext context = factory.onCreateColumnContext(annotation,null, table.getData(), field);
+                processor.process(columns,context);
             }
         }
         table.setColumns(columns);
     }
 
-    private void onProcessColumnDefinitionByTable(ExcelTableDefinition table) {
-        List<ExcelColumnDefinition> columns = table.getColumns();
+    private void onProcessColumnDefinitionByTable(List<ExcelColumnDefinition> columns, List<JsonNode> data) {
         for (ExcelColumnDefinition column : columns) {
             Class<?> clazz = column.getClazz();
             ExcelGroupColumnDefinition group = column.getGroups();
-            if (group == null) continue;
-            NodeExcel node = new NodeExcel(column, clazz, table.getData());
-            onProcessNodeColumnGroup(node);
+            if (Objects.isNull(group)) continue;
+            NodeExcel node = new NodeExcel(column, clazz, data);
+            onProcessNodeColumnGroup(node, data);
         }
     }
 
-    private void onProcessNodeColumnGroup(NodeExcel node) {
+    private void onProcessNodeColumnGroup(NodeExcel node, List<JsonNode> data) {
         Set<ExcelColumnDefinition> visitedNodes = Collections.newSetFromMap(new IdentityHashMap<>());
         Deque<ExcelColumnDefinition> nodes = new ArrayDeque<>();
         nodes.add(node.column);
         while(!nodes.isEmpty()) {
+
             ExcelColumnDefinition column = nodes.pop();
             Class<?> columnType = column.getClazz();
-            String path = column.getPath();
+            //String path = column.getPath();
             if (!visitedNodes.add(column) && DocumentReflectionUtils.isSimpleClass(columnType)) continue;
-            //processColumnAnnotationsFromClass(columnType,node,nodeToProcess,tableDefinition.getData(),path);
+            ExcelGroupColumnDefinition group = column.getGroups();
+            List<ExcelColumnDefinition> columns = group.getColumns();
+
+            Field[] fields = column.getClazz().getDeclaredFields();
+            for (Field field : fields) {
+                List<Annotation> annotations = DocumentExcelAnnotationUtil.forEachColumnAnnotation(field);
+                for (Annotation annotation : annotations) {
+                    Class<? extends Annotation> type = annotation.annotationType();
+                    ExcelAnnotationProcessor<ColumnContext> processor = processors.get(type);
+                    if (processor == null) continue;
+                    ColumnContext context = factory.onCreateColumnContext(annotation,column, data, field);
+                    processor.process(columns,context);
+                }
+            }
+            for (ExcelColumnDefinition columnGroup : columns) {
+                Class<?> clazz = columnGroup.getClazz();
+                ExcelGroupColumnDefinition groupFind = columnGroup.getGroups();
+                if (Objects.isNull(groupFind)) continue;
+                //NodeExcel node = new NodeExcel(column, clazz, data);
+                nodes.add(column);
+            }
+
         }
     }
 

@@ -65,20 +65,20 @@ public class ExcelColumnFieldBinding implements ExcelAnnotationBinding {
     }
 
     @Override
-    public ExcelColumnDefinition binding(ColumnContext context) {
+    public void binding(List<ExcelColumnDefinition> columns,ColumnContext context) {
         Field field = context.field();
         ExcelColumn columnAnnotation = (ExcelColumn) context.annotation();
         ExcelColumnStyle columnStyle = field.getAnnotation(ExcelColumnStyle.class);
         ExcelDataStyle dataStyle = field.getAnnotation(ExcelDataStyle.class);
-        if (!DocumentReflectionUtils.isSimpleClass(field.getType())) return null;
-        ExcelColumnDefinition column = context.column();
-        String path = DocumentExcelAnnotationUtil.buildPathField(column, field);
+        if (!DocumentReflectionUtils.isSimpleClass(field.getType())) return;
+        //ExcelColumnDefinition column = context.column();
+        //String path = DocumentExcelAnnotationUtil.buildPathField(column, field);
         ExcelColumnStyleDefinition columnStyleDefinition = factory.onCreateColumnStyle(columnStyle);
         ExcelDataStyleDefinition dataStyleDefinition = factory.onCreateDataStyle(dataStyle);
-
-        return factory.onCreateColumnDefinition(
-                columnAnnotation,path, columnStyleDefinition,dataStyleDefinition
+        ExcelColumnDefinition columnRes = factory.onCreateColumnDefinition(
+                columnAnnotation, field.getName(), columnStyleDefinition,dataStyleDefinition
         );
+        columns.add(columnRes);
     }
 
 

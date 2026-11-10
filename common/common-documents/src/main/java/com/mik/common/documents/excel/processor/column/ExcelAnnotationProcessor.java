@@ -1,13 +1,15 @@
 package com.mik.common.documents.excel.processor.column;
 
 
+import com.mik.common.documents.excel.model.column.ExcelColumnDefinition;
 import com.mik.common.documents.excel.model.context.ProcessorContext;
 
 import java.lang.annotation.Annotation;
+import java.util.List;
 
-public interface ExcelAnnotationProcessor<T, C extends ProcessorContext> {
+public interface ExcelAnnotationProcessor<C extends ProcessorContext> {
 
-    T process(C context);
+    void process(List<ExcelColumnDefinition> columns, C context);
 
     Class<? extends Annotation> getAnnotationClass();
 

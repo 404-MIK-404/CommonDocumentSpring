@@ -13,7 +13,7 @@ public interface ExcelAnnotationBinding {
 
     List<ExcelColumnDefinition> apply(ExcelAnnotationContext context);
 
-    ExcelColumnDefinition binding(ColumnContext context);
+    void binding(List<ExcelColumnDefinition> columns,ColumnContext context);
 
     ExcelTypeColumn getBindingType();
 

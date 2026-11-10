@@ -47,13 +47,13 @@ public class ExcelColumnMapBinding implements ExcelAnnotationBinding {
     }
 
     @Override
-    public ExcelColumnDefinition binding(ColumnContext context) {
+    public void binding(List<ExcelColumnDefinition> columns, ColumnContext context) {
         Field field = context.field();
-        if (!ClassUtils.isAssignable(Map.class, field.getType())) return null;
+        if (!ClassUtils.isAssignable(Map.class, field.getType())) return;
         ExcelColumnDefinition column = context.column();
         String path = DocumentExcelAnnotationUtil.buildPathField(column, field);
-        List<ExcelColumnDefinition> columns = asdasd(context.data(),path, field);
-        return null;
+        List<ExcelColumnDefinition> mapColumns = asdasd(context.data(),path, field);
+        columns.addAll(mapColumns);
     }
 
 

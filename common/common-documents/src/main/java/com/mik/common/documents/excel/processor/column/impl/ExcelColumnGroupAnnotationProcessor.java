@@ -21,10 +21,11 @@ import java.util.Objects;
 
 @Component
 @AllArgsConstructor
-public class ExcelColumnGroupAnnotationProcessor implements ExcelAnnotationProcessor<List<ExcelColumnDefinition>, ColumnContext> {
+public class ExcelColumnGroupAnnotationProcessor implements ExcelAnnotationProcessor<ColumnContext> {
 
     private final DocumentExcelDefinitionFactory factory;
 
+    /*
     @Override
     public List<ExcelColumnDefinition> process(ColumnContext context) {
         List<ExcelColumnDefinition> columns = context.columns();
@@ -49,6 +50,8 @@ public class ExcelColumnGroupAnnotationProcessor implements ExcelAnnotationProce
             column.setGroups(group);
             //columns.add(column);
         }
+
+     */
         /*
         ExcelMarkerTableColumnGrouping annotation = (ExcelMarkerTableColumnGrouping) context.getAnnotation();
         List<ExcelColumnDefinition> columns = context.getColumns();
@@ -67,7 +70,44 @@ public class ExcelColumnGroupAnnotationProcessor implements ExcelAnnotationProce
         return columns;
 
          */
+    /*
         return null;
+    }
+
+     */
+
+    @Override
+    public void process(List<ExcelColumnDefinition> columns, ColumnContext context) {
+        ExcelGroupColumn annotation = (ExcelGroupColumn) context.annotation();
+        //ExcelColumnDefinition column = context.column();
+        Field field = context.field();
+        Class<?> declaringClass = field.getType();
+        //String path = DocumentExcelAnnotationUtil.buildPathField(column, field);
+        ExcelColumnStyle columnStyle = field.getAnnotation(ExcelColumnStyle.class);
+        ExcelDataStyle dataStyle = field.getAnnotation(ExcelDataStyle.class);
+        ExcelGroupColumnDefinition group = ExcelGroupColumnDefinition.builder()
+                .title(annotation.name())
+                .build();
+        ExcelColumnStyleDefinition styleColumnDefinition = factory.onCreateColumnStyle(columnStyle);
+        ExcelDataStyleDefinition styleDataStyleDefinition = factory.onCreateDataStyle(dataStyle);
+        ExcelColumnDefinition columnDefinition = factory.onCreateColumnDefinition(null,field.getName(), styleColumnDefinition, styleDataStyleDefinition);
+        columnDefinition.setClazz(declaringClass);
+        columnDefinition.setGroups(group);
+        columns.add(columnDefinition);
+        /*
+
+        if (Objects.isNull(column)) {
+            ExcelColumnStyleDefinition styleColumnDefinition = factory.onCreateColumnStyle(columnStyle);
+            ExcelDataStyleDefinition styleDataStyleDefinition = factory.onCreateDataStyle(dataStyle);
+            ExcelColumnDefinition columnDefinition = factory.onCreateColumnDefinition(null,path, styleColumnDefinition, styleDataStyleDefinition);
+            columnDefinition.setClazz(declaringClass);
+            columnDefinition.setGroups(group);
+            columns.add(columnDefinition);
+        } else {
+            column.setGroups(group);
+        }
+
+         */
     }
 
     @Override

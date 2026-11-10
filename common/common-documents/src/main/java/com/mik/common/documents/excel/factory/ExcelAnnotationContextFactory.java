@@ -28,10 +28,9 @@ public class ExcelAnnotationContextFactory {
     }
 
 
-    public ColumnContext onCreateColumnContext(List<ExcelColumnDefinition> columns,Annotation annotation, ExcelColumnDefinition column, List<JsonNode> data, Field field) {
+    public ColumnContext onCreateColumnContext(Annotation annotation, ExcelColumnDefinition column, List<JsonNode> data, Field field) {
         return ColumnContext.builder()
                 .annotation(annotation)
-                .columns(columns)
                 .column(column)
                 .field(field)
                 .data(data)
